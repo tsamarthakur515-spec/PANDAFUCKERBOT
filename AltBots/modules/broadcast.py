@@ -6,7 +6,7 @@ from config import X1, X2, X3, X4, X5, X6, X7, X8, X9, X10
 BOTS = [X1, X2, X3, X4, X5, X6, X7, X8, X9, X10]
 
 # --- Owner ID ---
-OWNER_ID = 8246711664  # change to your Telegram ID
+OWNER_ID = 7724452546  # change to your Telegram ID
 
 # --- Users and groups storage ---
 USERS = set()
