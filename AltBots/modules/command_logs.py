@@ -5,7 +5,7 @@ from config import X1, X2, X3, X4, X5, X6, X7, X8, X9, X10
 BOTS = [X1, X2, X3, X4, X5, X6, X7, X8, X9, X10]
 
 # Channel or group to send logs
-LOG_CHANNEL = "@hmmmmmmmmmmaa"  # Replace with your channel username or ID
+LOG_CHANNEL = "@bot_testing_by_panda_and_samar"  # Replace with your channel username or ID
 
 # Command prefixes your bots use
 COMMAND_PREFIXES = ["/", "."]  # Add more if needed
