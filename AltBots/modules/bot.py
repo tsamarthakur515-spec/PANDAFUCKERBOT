@@ -16,10 +16,10 @@ for bot in ALL_BOTS:
     async def ping(e):
         if e.sender_id in SUDO_USERS:
             start = datetime.now()
-            reply = await e.reply("» __[𝗔𝗟𝗧𝗥𝗢𝗡] ✘ [ 𝗕𝗢𝗧𝗦 ]__")
+            reply = await e.reply("» __˹ᴀʀᴜ × ᴀᴘɪ˼ × [ʙᴏᴛs]__")
             end = datetime.now()
             ms = (end - start).microseconds / 1000
-            await reply.edit(f"`🤖 ᴘɪɴɢ\n» 𓆩𝐀𝐒𓆪 ꭙ 𝐉𝐄𝐑𝐑𝐘 ⌯ 𝐊𝐈𝐍𝐆💀 #𝐅𝐔𝐂𝐊𝐄𝐑 ραρα нєяє αв кιѕкι gαи∂ мαяυ {ms} ᴍꜱ`")
+            await reply.edit(f"`🤖 ᴘɪɴɢ\n» ꯭𐏓꯭🇳🇵꯭𐏓꯭ 𝐀꯭𝛅 ꯭ꭙ ꯭ᯓ꯭𓆰𝅃꯭᳚ ⃪ ⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠༎ ꯭𝐒꯭𝛂꯭𝐦꯭𝐚𝐫 ꯭꯭𝆺꯭𝅥༎ࠫ𐏓꯭꯭𝅥🍃꯭ ραρα нєяє αв кιѕкι gαи∂ мαяυ {ms} ᴍꜱ`")
         else:
             await e.reply("» ʏᴏᴜ'ʀᴇ ɴᴏᴛ ᴀ sᴜᴅᴏ ᴜsᴇʀ ❌")
 
