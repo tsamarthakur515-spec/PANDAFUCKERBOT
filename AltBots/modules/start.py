@@ -25,7 +25,7 @@ async def start_handler(event):
 
     await event.client.send_file(
         event.chat_id,
-        "https://t.me/ANIME_HUB6229/80",
+        "https://t.me/BOM_BOM68/965",
         caption=TEXT,
         buttons=START_BUTTON
     )
