@@ -9,8 +9,8 @@ START_BUTTON = [
     [Button.inline("• ꜱᴘᴀᴍ •", data="spam"), Button.inline("• ʀᴀɪᴅ •", data="raid")],
     [Button.inline("• ᴇxᴛʀᴀ •", data="extra")],
     [
-        Button.url("• ᴄʜᴀɴɴᴇʟ •", "https://t.me/ASUR_SAMRAJY_NET"),
-        Button.url("• sᴜᴘᴘᴏʀᴛ •", "https://t.me/+S67B3MAai5NhNDI1")
+        Button.url("• ᴄʜᴀɴɴᴇʟ •", "https://t.me/suruchisupport"),
+        Button.url("• sᴜᴘᴘᴏʀᴛ •", "https://t.me/+fYnrOJSQP9I4ODlh")
     ],
     [Button.inline("• ʙᴀᴄᴋ •", data="back_start")]
 ]
@@ -81,7 +81,7 @@ spam_msg = f"""
 𝗛𝗮𝗻𝗴: **ꜱᴘᴀᴍꜱ ʜᴀɴɢɪɴɢ ᴍᴇꜱꜱᴀɢᴇ ꜰᴏʀ ɢɪᴠᴇɴ ᴄᴏᴜɴᴛᴇʀ.**
   1) {hl}hang <counter>
 
-**© @ALONE_WAS_BOT**
+**© @SXYARU**
 """
 
 async def button_handler(event):
@@ -144,8 +144,8 @@ async def back_to_start(event):
     CUSTOM_BUTTONS = [
         [Button.inline("• ᴄᴏᴍᴍᴀɴᴅs •", data="help_back")],
         [
-            Button.url("• ᴄʜᴀɴɴᴇʟ •", "https://t.me/ASUR_SAMRAJY_NET"),
-            Button.url("• sᴜᴘᴘᴏʀᴛ •", "https://t.me/ASUR_SAMRAJY_NET")
+            Button.url("• ᴄʜᴀɴɴᴇʟ •", "https://t.me/suruchisupport"),
+            Button.url("• sᴜᴘᴘᴏʀᴛ •", "https://t.me/+fYnrOJSQP9I4ODlh")
         ],
         [Button.inline("• ʀᴇᴘᴏ •", data="repo")]
     ]
