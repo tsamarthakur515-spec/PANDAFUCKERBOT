@@ -18,7 +18,7 @@ async def start_handler(event):
     bot_name = AltBot.first_name
     bot_id = AltBot.id
     TEXT = f"**ʜᴇʏ​ [{event.sender.first_name}]\n\nɪ ᴀᴍ [{bot_name}](tg://user?id={bot_id})​**\n━━━━━━━━━━━━━━━━━━━\n\n"
-    TEXT += f"» **ᴍʏ ᴅᴇᴠᴇʟᴏᴘᴇʀ​ : [𓆩𝐀𝐒𓆪 ꭙ 𝐉𝐄𝐑𝐑𝐘 ⌯ 𝐊𝐈𝐍𝐆💀 #𝐅𝐔𝐂𝐊𝐄𝐑](tg://openmessage?user_id=7290768963)**\n\n"
+    TEXT += f"» **ᴍʏ ᴅᴇᴠᴇʟᴏᴘᴇʀ​ : [꯭𐏓꯭🇳🇵꯭𐏓꯭ 𝐀꯭𝛅 ꯭ꭙ ꯭ᯓ꯭𓆰𝅃꯭᳚ ⃪ ⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠༎ ꯭𝐒꯭𝛂꯭𝐦꯭𝐚𝐫 ꯭꯭𝆺꯭𝅥༎ࠫ𐏓꯭꯭𝅥🍃꯭](tg://openmessage?user_id=7724452546)**\n\n"
     TEXT += f"» **xʙᴏᴛꜱ ᴠᴇʀsɪᴏɴ :** `M3.3`\n"
     TEXT += f"» **ᴘʏᴛʜᴏɴ ᴠᴇʀsɪᴏɴ :** `3.11.3`\n"
     TEXT += f"» **ᴛᴇʟᴇᴛʜᴏɴ ᴠᴇʀsɪᴏɴ :** `{__version__}`\n━━━━━━━━━━━━━━━━━"
@@ -36,7 +36,7 @@ async def button_handler(event):
     
     if data == "repo":
         await event.answer(
-            "𝗕𝗛𝗔𝗚 𝗝𝗔𝗔 𝗟𝗢𝗗𝗘 𝗥𝗘𝗣𝗢 𝗟𝗘𝗚𝗔 𓆩𝐀𝐒𓆪 ꭙ 𝐉𝐄𝐑𝐑𝐘 ⌯ 𝐊𝐈𝐍𝐆 𝗞𝗔 𝗟𝗨𝗠𝗗 𝗟𝗘𝗟𝗘 😎\n\n ᴘᴏᴡᴇʀᴇᴅ ʙʏ ᴀʟᴛʀᴏɴᴇ x ʙᴏᴛs",
+            "𝗕𝗛𝗔𝗚 𝗝𝗔𝗔 𝗟𝗢𝗗𝗘 𝗥𝗘𝗣𝗢 𝗟𝗘𝗚𝗔 𝐒𝐀𝐌𝐀𝐑 𝐓𝐇𝐀𝐊𝐔𝐑 𝗞𝗔 𝗟𝗨𝗠𝗗 𝗟𝗘𝗟𝗘 😎\n\n ᴘᴏᴡᴇʀᴇᴅ ʙʏ ᴀʟᴛʀᴏɴᴇ x ʙᴏᴛs",
             alert=True
         )
 
