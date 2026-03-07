@@ -19,7 +19,7 @@ for bot in ALL_BOTS:
             reply = await e.reply("» __˹ᴀʀᴜ × ᴀᴘɪ˼ × [ʙᴏᴛs]__")
             end = datetime.now()
             ms = (end - start).microseconds / 1000
-            await reply.edit(f"`🤖 ᴘɪɴɢ\n» ꯭𐏓꯭🇳🇵꯭𐏓꯭ 𝐀꯭𝛅 ꯭ꭙ ꯭ᯓ꯭𓆰𝅃꯭᳚ ⃪ ⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠༎ ꯭𝐒꯭𝛂꯭𝐦꯭𝐚𝐫 ꯭꯭𝆺꯭𝅥༎ࠫ𐏓꯭꯭𝅥🍃꯭ ραρα нєяє αв кιѕкι gαи∂ мαяυ {ms} ᴍꜱ`")
+            await reply.edit(f"`🤖 ᴘɪɴɢ\n» ꯭sᴀᴍᴀʀ ᴛʜᴀᴋᴜʀ ραρα нєяє αв кιѕкι gαи∂ мαяυ {ms} ᴍꜱ`")
         else:
             await e.reply("» ʏᴏᴜ'ʀᴇ ɴᴏᴛ ᴀ sᴜᴅᴏ ᴜsᴇʀ ❌")
 
