@@ -15,7 +15,7 @@ START_BUTTON = [
     [Button.inline("• ʙᴀᴄᴋ •", data="back_start")]
 ]
 
-HELP_STRING = f"★ 𓆩𝐀𝐒𓆪 ꭙ 𝐉𝐄𝐑𝐑𝐘 ⌯ 𝐊𝐈𝐍𝐆💀 𝒉𝒆𝒍𝒑𝒎𝒆𝒏𝒖 ★\n\n» **ᴄʟɪᴄᴋ ᴏɴ ʙᴇʟᴏᴡ ʙᴜᴛᴛᴏɴꜱ ꜰᴏʀ ʜᴇʟᴘ**\n» **ᴅᴇᴠᴇʟᴏᴘᴇʀ: @II_Sexcy_Jerry_ll**"
+HELP_STRING = f"★ ꯭𐏓꯭🇳🇵꯭𐏓꯭ 𝐀꯭𝛅 ꯭ꭙ ꯭ᯓ꯭𓆰𝅃꯭᳚ ⃪ ⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠⁠༎ ꯭𝐒꯭𝛂꯭𝐦꯭𝐚𝐫 ꯭꯭𝆺꯭𝅥༎ࠫ𐏓꯭꯭𝅥🍃꯭ 𝒉𝒆𝒍𝒑𝒎𝒆𝒏𝒖 ★\n\n» **ᴄʟɪᴄᴋ ᴏɴ ʙᴇʟᴏᴡ ʙᴜᴛᴛᴏɴꜱ ꜰᴏʀ ʜᴇʟᴘ**\n» **ᴅᴇᴠᴇʟᴏᴘᴇʀ: @II_Sexcy_Jerry_ll**"
 
 # Messages for different categories
 extra_msg = f"""
