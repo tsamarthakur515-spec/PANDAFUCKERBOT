@@ -32,7 +32,7 @@ BOT_TOKEN10 = "8619853701:AAFEdz90PpDmUDlElO_h9tEjc7IjsxpF13U"
 SUDO_USERS = list(map(lambda x: int(x), getenv("SUDO_USERS", default="7724452546 7450385463 7998952043 7311297618").split()))
 for x in ALTRON:
     SUDO_USERS.append(x)
-OWNER_ID = int(getenv("OWNER_ID", default="7450385463"))
+OWNER_ID = int(getenv("OWNER_ID", default="7724452546"))
 SUDO_USERS.append(OWNER_ID)
 
 # Initialize only one active bot client
