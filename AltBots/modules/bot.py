@@ -19,9 +19,9 @@ for bot in ALL_BOTS:
             reply = await e.reply("» __˹ᴀʀᴜ × ᴀᴘɪ˼ × [ʙᴏᴛs]__")
             end = datetime.now()
             ms = (end - start).microseconds / 1000
-            await reply.edit(f"`🤖 ᴘɪɴɢ\n» sᴀᴍᴀʀ ᴛʜᴀᴋᴜʀ ραρα нєяє αв кιѕкι gαи∂ мαяυ {ms} ᴍꜱ`")
+            await reply.edit(f"`🤖 ᴘɪɴɢ\n» sᴀᴍᴀʀ ᴛʜᴀᴋᴜʀ ραρα нєяє αв кιѕкι ᴍᴀᴀ ᴄʜᴏᴅᴜ {ms} ᴍꜱ`")
         else:
-            await e.reply("» ʏᴏᴜ'ʀᴇ ɴᴏᴛ ᴀ sᴜᴅᴏ ᴜsᴇʀ ❌")
+            await e.reply("» ᴘʜᴀʟᴇ sᴀᴍᴀʀ ᴘᴀᴘᴀ sᴀ sᴜᴅᴏ ʟᴀʟᴀ ʙᴋʟ 👿 ")
 
 
 # 🔁 Reboot Command
@@ -33,7 +33,7 @@ for bot in ALL_BOTS:
             await bot.disconnect()
             execl(sys.executable, sys.executable, *sys.argv)
         else:
-            await e.reply("» ʏᴏᴜ'ʀᴇ ɴᴏᴛ ᴀ sᴜᴅᴏ ᴜsᴇʀ ❌")
+            await e.reply("» ᴘʜᴀʟᴇ sᴀᴍᴀʀ ᴘᴀᴘᴀ sᴀ sᴜᴅᴏ ʟᴀʟᴀ ʙᴋʟ 👿")
 
 
 # 🧑‍💻 Add Sudo User
@@ -41,7 +41,7 @@ for bot in ALL_BOTS:
     @bot.on(events.NewMessage(incoming=True, pattern=rf"\{hl}sudo(?: |$)(.*)"))
     async def add_sudo(event):
         if event.sender_id != OWNER_ID:
-            return await event.reply("» ʏᴏᴜ'ʀᴇ ɴᴏᴛ ᴛʜᴇ ᴏᴡɴᴇʀ ❌")
+            return await event.reply("» ʙʜᴀᴋ ᴍᴀᴅᴇʀᴄʜᴏᴅ ᴛᴜ sᴜᴅᴏ ᴏᴡɴᴇʀ ɴᴀʜɪ ʜᴀɪ ❌")
 
         ok = await event.reply("» ᴘʀᴏᴄᴇssɪɴɢ ʏᴏᴜʀ sᴜᴅᴏ ʀᴇǫᴜᴇsᴛ...")
 
@@ -62,7 +62,7 @@ for bot in ALL_BOTS:
     @bot.on(events.NewMessage(incoming=True, pattern=rf"\{hl}rmsudo(?: |$)(.*)"))
     async def remove_sudo(event):
         if event.sender_id != OWNER_ID:
-            return await event.reply("» ʏᴏᴜ'ʀᴇ ɴᴏᴛ ᴛʜᴇ ᴏᴡɴᴇʀ ❌")
+            return await event.reply("» ʙʜᴀᴋ ᴍᴀᴅᴇʀᴄʜᴏᴅ ᴛᴜ sᴜᴅᴏ ᴏᴡɴᴇʀ ɴᴀʜɪ ʜᴀɪ ❌")
 
         reply_msg = await event.get_reply_message()
         if not reply_msg:
