@@ -43,7 +43,7 @@ for bot in ALL_BOTS:
         if event.sender_id != OWNER_ID:
             return await event.reply("» ʙʜᴀᴋ ᴍᴀᴅᴇʀᴄʜᴏᴅ ᴛᴜ sᴜᴅᴏ ᴏᴡɴᴇʀ ɴᴀʜɪ ʜᴀɪ ❌")
 
-        ok = await event.reply("» ᴘʀᴏᴄᴇssɪɴɢ ʏᴏᴜʀ sᴜᴅᴏ ʀᴇǫᴜᴇsᴛ...")
+        ok = await event.reply("» sᴀᴍᴀʀ ᴘᴀᴘᴀ ɴᴇ sᴜᴅᴏ ᴅᴇ ᴅᴇʏᴀ ᴀʙ ʜᴀᴛᴇʀs ᴋɪ ᴄʜᴜᴅᴀɪ sʜᴜʀᴜ ᴋᴀʀ 🥵 ")
 
         reply_msg = await event.get_reply_message()
         if not reply_msg:
