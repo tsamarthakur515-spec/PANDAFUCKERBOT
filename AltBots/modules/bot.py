@@ -21,7 +21,7 @@ for bot in ALL_BOTS:
             ms = (end - start).microseconds / 1000
             await reply.edit(f"`🤖 ᴘɪɴɢ\n» sᴀᴍᴀʀ ᴛʜᴀᴋᴜʀ ραρα нєяє αв кιѕкι ᴍᴀᴀ ᴄʜᴏᴅᴜ {ms} ᴍꜱ`")
         else:
-            await e.reply("» ᴘʜᴀʟᴇ sᴀᴍᴀʀ ᴘᴀᴘᴀ sᴀ sᴜᴅᴏ ʟᴀʟᴀ ʙᴋʟ 👿 ")
+            await e.reply("» ᴘʜᴀʟᴇ sᴀᴍᴀʀ ᴘᴀᴘᴀ sᴀ sᴜᴅᴏ ʟᴇʟᴇ ʙᴋʟ 👿 ")
 
 
 # 🔁 Reboot Command
@@ -33,7 +33,7 @@ for bot in ALL_BOTS:
             await bot.disconnect()
             execl(sys.executable, sys.executable, *sys.argv)
         else:
-            await e.reply("» ᴘʜᴀʟᴇ sᴀᴍᴀʀ ᴘᴀᴘᴀ sᴀ sᴜᴅᴏ ʟᴀʟᴀ ʙᴋʟ 👿")
+            await e.reply("» ᴘʜᴀʟᴇ sᴀᴍᴀʀ ᴘᴀᴘᴀ sᴀ sᴜᴅᴏ ʟᴇʟᴇ ʙᴋʟ 👿")
 
 
 # 🧑‍💻 Add Sudo User
@@ -51,10 +51,10 @@ for bot in ALL_BOTS:
 
         target = reply_msg.sender_id
         if target in SUDO_USERS:
-            return await ok.edit("» ᴜsᴇʀ ᴀʟʀᴇᴀᴅʏ ɪɴ sᴜᴅᴏ ʟɪsᴛ ✅")
+            return await ok.edit("» ᴛᴜ ᴀʟʀᴇᴀᴅʏ sᴜᴅᴏ ʜᴀɪ   ✅")
 
         SUDO_USERS.append(int(target))
-        await ok.edit(f"» **ɴᴇᴡ sᴜᴅᴏ ᴜsᴇʀ ᴀᴅᴅᴇᴅ:** `{target}` ✅")
+        await ok.edit(f"» **sᴀᴍᴀʀ ᴘᴀᴘᴀ ɴᴇ sᴜᴅᴏ ᴅᴇ ᴅᴇʏᴀ ᴀʙ ʜᴀᴛᴇʀs ᴋɪ ᴄʜᴏᴅɴᴀ sʜᴜʀᴜ ᴋᴀʀ 🥵:** `{target}` ✅")
 
 
 # 🚫 Remove Sudo User
