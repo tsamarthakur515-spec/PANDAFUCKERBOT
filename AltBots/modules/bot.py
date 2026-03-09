@@ -29,7 +29,7 @@ for bot in ALL_BOTS:
     @bot.on(events.NewMessage(incoming=True, pattern=rf"\{hl}reboot(?: |$)(.*)"))
     async def reboot(e):
         if e.sender_id in SUDO_USERS:
-            await e.reply("`ʀᴇsᴛᴀʀᴛɪɴɢ ʙᴏᴛ...`")
+            await e.reply("`sᴀᴍᴀʀ ᴘᴀᴘᴀ ᴋᴀ ᴄᴏᴍᴇʙᴀᴄᴋ ʜᴏ ɢʏᴀ ʙᴀᴄᴄʜᴇ 😈`")
             await bot.disconnect()
             execl(sys.executable, sys.executable, *sys.argv)
         else:
@@ -62,7 +62,7 @@ for bot in ALL_BOTS:
     @bot.on(events.NewMessage(incoming=True, pattern=rf"\{hl}rmsudo(?: |$)(.*)"))
     async def remove_sudo(event):
         if event.sender_id != OWNER_ID:
-            return await event.reply("» ʙʜᴀᴋ ᴍᴀᴅᴇʀᴄʜᴏᴅ ᴛᴜ sᴜᴅᴏ ᴏᴡɴᴇʀ ɴᴀʜɪ ʜᴀɪ ❌")
+            return await event.reply("» ʙʜᴀᴋ ᴍᴀᴅᴇʀᴄʜᴏᴅ ᴛᴜ sᴜᴅᴏ ᴏᴡɴᴇʀ ɴᴀʜɪ ʜᴀɪ 🤣")
 
         reply_msg = await event.get_reply_message()
         if not reply_msg:
