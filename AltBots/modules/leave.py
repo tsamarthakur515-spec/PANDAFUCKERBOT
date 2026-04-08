@@ -18,7 +18,7 @@ async def leave(e):
     if e.sender_id in SUDO_USERS:
 
         if len(e.text) > 7:
-            event = await e.reply("» ʟᴇᴀᴠɪɴɢ...")
+            event = await e.reply("» ʟᴇᴀᴠɪɴɢ... ᴀʙ ʏᴀʜᴀɴ ᴍᴇʀᴀ ᴋᴀᴍ ᴋʜᴀᴛᴍ 💀")
             mkl = e.text.split(" ", 1)
             try:
                 await event.client(LeaveChannelRequest(int(mkl[1])))
@@ -29,7 +29,7 @@ async def leave(e):
                   alt = f"**» ʏᴏᴜ ᴄᴀɴ'ᴛ ᴅᴏ ᴛʜɪꜱ ʜᴇʀᴇ !!**\n\n» {hl}leave <ᴄʜᴀɴɴᴇʟ/ᴄʜᴀᴛ ɪᴅ> \n» {hl}leave : ᴛʏᴘᴇ ɪɴ ᴛʜᴇ ɢʀᴏᴜᴘ, ʙᴏᴛ ᴡɪʟʟ ᴀᴜᴛᴏ ʟᴇᴀᴠᴇ ᴛʜᴀᴛ ɢʀᴏᴜᴘ."
                   await e.reply(alt)
              else:
-                  event = await e.reply("» ᴍᴀɪɴ ᴊʜᴀ ʀᴀʜᴀ ʜᴜ 🙂 ")
+                  event = await e.reply("» ja raha hu... bye 👋 ")
                   try:
                       await event.client(LeaveChannelRequest(int(e.chat_id)))
                   except Exception as e:
