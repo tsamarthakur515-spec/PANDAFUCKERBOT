@@ -4,8 +4,8 @@ from config import X1, X2, X3, X4, X5, X6, X7, X8, X9, X10
 START_BUTTON = [
     [Button.inline("• ᴄᴏᴍᴍᴀɴᴅs •", data="help_back")],
     [
-        Button.url("• ᴄʜᴀɴɴᴇʟ •", "https://t.me/+fYnrOJSQP9I4ODlh"),
-        Button.url("• sᴜᴘᴘᴏʀᴛ •", "https://t.me/suruchisupport")
+        Button.url("• ᴄʜᴀɴɴᴇʟ •", "https://t.me/+4eTddUofQDlkYjhl"),
+        Button.url("• sᴜᴘᴘᴏʀᴛ •", "https://t.me/suruchi_network")
     ],
     [Button.inline("• ʀᴇᴘᴏ •", data="repo")]
 ]
