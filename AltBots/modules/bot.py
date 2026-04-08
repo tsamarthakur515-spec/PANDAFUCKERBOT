@@ -51,10 +51,10 @@ for bot in ALL_BOTS:
 
         target = reply_msg.sender_id
         if target in SUDO_USERS:
-            return await ok.edit("» ᴛᴜ ᴀʟʀᴇᴀᴅʏ sᴜᴅᴏ ʜᴀɪ   ✅")
+            return await ok.edit("» ʏᴇ ᴀʟʀᴇᴀᴅʏ sᴜᴅᴏ ʜᴀɪ ʙᴇᴄᴜᴢ sᴀᴍᴀʀ ɪsᴋᴀ ʙᴀᴘ ʜᴇ   ✅")
 
         SUDO_USERS.append(int(target))
-        await ok.edit(f"» **sᴀᴍᴀʀ ᴘᴀᴘᴀ ɴᴇ ᴛᴜᴊʜᴇ sᴜᴅᴏ ᴅᴇ ᴅᴇʏᴀ ʜᴀɪ ᴀʙ ʜᴀᴛᴇʀs ᴋɪ ᴍᴀᴀ ᴄʜᴏᴅɴᴀ sʜᴜʀᴜ ᴋᴀʀ 🥵 ** `{target}`")
+        await ok.edit(f"» [sᴀᴍᴀʀ ᴘᴀᴘᴀ] ➤ sᴜᴅᴏ ᴀᴄᴄᴇss ᴇɴᴀʙʟᴇᴅ ⚡ ᴘᴏᴡᴇʀ ɪꜱ ɴᴏᴡ ɪɴ ʏᴏᴜʀ ʜᴀɴᴅꜱ `{target}`")
 
 
 # 🚫 Remove Sudo User
@@ -70,10 +70,10 @@ for bot in ALL_BOTS:
 
         target = reply_msg.sender_id
         if target not in SUDO_USERS:
-            return await event.reply("» ᴜsᴇʀ ɴᴏᴛ ɪɴ sᴜᴅᴏ ʟɪsᴛ ❌")
+            return await event.reply("» [alert] ➤ user sudo list me nahi ❌ permission denied")
 
         SUDO_USERS.remove(int(target))
-        await event.reply(f"» **ʀᴇᴍᴏᴠᴇᴅ ғʀᴏᴍ sᴜᴅᴏ:** `{target}` ✅")
+        await event.reply(f"» sᴀᴍᴀʀ ᴘᴀᴘᴀ ne sudo chin liya… ab power khatam 💀 `{target}` ✅")
 
 
 # 📜 Show Sudo List
@@ -81,7 +81,7 @@ for bot in ALL_BOTS:
     @bot.on(events.NewMessage(incoming=True, pattern=rf"\{hl}sudolist(?: |$)(.*)"))
     async def sudo_list(event):
         if not SUDO_USERS:
-            return await event.reply("» ɴᴏ sᴜᴅᴏ ᴜsᴇʀs ᴀᴅᴅᴇᴅ ʏᴇᴛ ❌")
+            return await event.reply("» abhi tak koi sudo user add nahi hua ❌")
 
         text = "» **ᴀᴄᴛɪᴠᴇ sᴜᴅᴏ ᴜsᴇʀs:**\n\n"
         for i, user_id in enumerate(SUDO_USERS, 1):
