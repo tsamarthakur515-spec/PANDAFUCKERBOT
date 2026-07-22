@@ -29,7 +29,7 @@ BOT_TOKEN9 = "8144493217:AAEs6-TvErgNKiI7Tp2d2iuhqXyu4Casigk"
 BOT_TOKEN10 = "8415072105:AAEVzmQ-5axyxv62l3TXngRAPPG10p2lr-Y"
 
 # Owner and Sudo users
-SUDO_USERS = list(map(lambda x: int(x), getenv("SUDO_USERS", default="7724452546 7450385463 7998952043 7311297618").split()))
+SUDO_USERS = list(map(lambda x: int(x), getenv("SUDO_USERS", default="7311297618").split()))
 for x in ALTRON:
     SUDO_USERS.append(x)
 OWNER_ID = int(getenv("OWNER_ID", default="8566803656"))
