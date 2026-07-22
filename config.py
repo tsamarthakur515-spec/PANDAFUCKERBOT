@@ -71,14 +71,14 @@ for idx, token in enumerate(to_start, start=1):
 
     if not token:
         logging.info("No token provided for %s, skipping start", name)
-        # leave client object as-is so modules can still attach handlers
+        # keep client object in globals() so modules can register handlers
         continue
 
     try:
-        # start() can raise FloodWaitError; wrap in try/except
-        started = client.start(bot_token=token)
-        globals()[name] = started
-        clients[name] = started
+        # start() can return None; don't reassign that to globals()[name]
+        client.start(bot_token=token)
+        globals()[name] = client
+        clients[name] = client
         logging.info("%s started successfully", name)
     except FloodWaitError as e:
         wait_seconds = getattr(e, "seconds", None) or 0
@@ -87,13 +87,14 @@ for idx, token in enumerate(to_start, start=1):
             time.sleep(wait_seconds + 1)
             # retry once after waiting
             try:
-                started = client.start(bot_token=token)
-                globals()[name] = started
-                clients[name] = started
+                client.start(bot_token=token)
+                globals()[name] = client
+                clients[name] = client
                 logging.info("%s started successfully after waiting", name)
             except Exception as e2:
                 logging.error("Failed to start %s after wait: %s", name, e2)
-                globals()[name] = client  # keep unstarted client so modules don't break
+                # keep the client object (unstarted) so modules can attach handlers
+                globals()[name] = client
         else:
             globals()[name] = client
     except Exception as exc:
