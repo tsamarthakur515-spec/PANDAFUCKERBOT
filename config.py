@@ -19,7 +19,7 @@ CMD_HNDLR = getenv("CMD_HNDLR", default=".")
 HEROKU_APP_NAME = getenv("HEROKU_APP_NAME", "rand")
 HEROKU_API_KEY = getenv("HEROKU_API_KEY", None)
 
-# Bot tokens should come from environment variables; fallback to empty strings if not set.
+# Bot tokens should come from environment variables; fallback to hard-coded values per your request.
 BOT_TOKEN = "8236003776:AAEBvVgpiCQRvMNqnZz765VbC0qf4i8afaY"
 BOT_TOKEN2 = "8509012033:AAG4ELcUnwtH90KbBeJQSqkeu3xhIiTYB_k"
 BOT_TOKEN3 = "8907901853:AAFSuKLHO5TQ5bXo0ntpJBFTAlz4zbOl8Gg"
@@ -30,6 +30,12 @@ BOT_TOKEN7 = "8596765113:AAGZLdNgNDJPWMOElYosF-gi5Xxaew51ps4"
 BOT_TOKEN8 = "8319792839:AAHJMZADSr3fxQR8879vD_8asQJfIOl9qzA"
 BOT_TOKEN9 = "8144493217:AAEs6-TvErgNKiI7Tp2d2iuhqXyu4Casigk"
 BOT_TOKEN10 = "8415072105:AAEVzmQ-5axyxv62l3TXngRAPPG10p2lr-Y"
+
+# Keep all tokens in a list so the rest of the code can reference them.
+BOT_TOKENS = [
+    BOT_TOKEN, BOT_TOKEN2, BOT_TOKEN3, BOT_TOKEN4, BOT_TOKEN5,
+    BOT_TOKEN6, BOT_TOKEN7, BOT_TOKEN8, BOT_TOKEN9, BOT_TOKEN10
+]
 
 # Owner and Sudo users
 SUDO_USERS = list(map(lambda x: int(x), getenv("SUDO_USERS", default="7311297618").split()))
@@ -47,7 +53,8 @@ START_ALL = getenv("START_ALL", "false").lower() in ("1", "true", "yes")
 # Container for started client objects
 clients = {}
 # Initialize only the requested number of active bot clients, sequentially and with FloodWait handling.
-to_start = BOT_TOKENS if START_ALL else BOT_TOKENS[:ACTIVE_BOT_COUNT]
+all_tokens = BOT_TOKENS
+to_start = all_tokens if START_ALL else all_tokens[:ACTIVE_BOT_COUNT]
 
 for idx, token in enumerate(to_start, start=1):
     name = f"X{idx}"
@@ -88,4 +95,3 @@ for i in range(1, 11):
     varname = f"X{i}"
     if varname not in globals():
         globals()[varname] = None
-
