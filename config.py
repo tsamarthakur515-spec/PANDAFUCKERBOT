@@ -41,7 +41,7 @@ BOT_TOKENS = [
 SUDO_USERS = list(map(lambda x: int(x), getenv("SUDO_USERS", default="7311297618").split()))
 for x in ALTRON:
     SUDO_USERS.append(x)
-OWNER_ID = int(getenv("OWNER_ID", default="8566803656"))
+OWNER_ID = int(getenv("OWNER_ID", default="7450385463"))
 SUDO_USERS.append(OWNER_ID)
 
 # How many bots to start by default. Keep this low to avoid hitting rate limits.
