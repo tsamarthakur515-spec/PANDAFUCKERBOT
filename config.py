@@ -52,18 +52,28 @@ START_ALL = getenv("START_ALL", "false").lower() in ("1", "true", "yes")
 
 # Container for started client objects
 clients = {}
+
+# Create TelegramClient objects for all X1..X10 so modules can register handlers on them even if not started.
+for i in range(1, 11):
+    name = f"X{i}"
+    globals()[name] = TelegramClient(name, API_ID, API_HASH)
+
 # Initialize only the requested number of active bot clients, sequentially and with FloodWait handling.
 all_tokens = BOT_TOKENS
 to_start = all_tokens if START_ALL else all_tokens[:ACTIVE_BOT_COUNT]
 
 for idx, token in enumerate(to_start, start=1):
     name = f"X{idx}"
-    if not token:
-        logging.info("No token provided for %s, skipping", name)
-        globals()[name] = None
+    client = globals().get(name)
+    if client is None:
+        logging.info("Client %s not available, skipping", name)
         continue
 
-    client = TelegramClient(name, API_ID, API_HASH)
+    if not token:
+        logging.info("No token provided for %s, skipping start", name)
+        # leave client object as-is so modules can still attach handlers
+        continue
+
     try:
         # start() can raise FloodWaitError; wrap in try/except
         started = client.start(bot_token=token)
@@ -83,14 +93,14 @@ for idx, token in enumerate(to_start, start=1):
                 logging.info("%s started successfully after waiting", name)
             except Exception as e2:
                 logging.error("Failed to start %s after wait: %s", name, e2)
-                globals()[name] = None
+                globals()[name] = client  # keep unstarted client so modules don't break
         else:
-            globals()[name] = None
+            globals()[name] = client
     except Exception as exc:
         logging.error("Unexpected error while starting %s: %s", name, exc)
-        globals()[name] = None
+        globals()[name] = client
 
-# Fill remaining X2..X10 names with None if they were not created
+# Ensure X1..X10 are defined in globals (they already are), set any missing to None for safety
 for i in range(1, 11):
     varname = f"X{i}"
     if varname not in globals():
