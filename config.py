@@ -1,9 +1,6 @@
-
 import logging
-import time
 from os import getenv
 from telethon import TelegramClient
-from telethon.errors.rpcerrorlist import FloodWaitError
 from AltBots.data import ALTRON
 
 # Logging setup
@@ -50,59 +47,12 @@ ACTIVE_BOT_COUNT = int(getenv("ACTIVE_BOT_COUNT", "1"))
 # Optionally set START_ALL=true to attempt to start all tokens (dangerous for rate limits)
 START_ALL = getenv("START_ALL", "false").lower() in ("1", "true", "yes")
 
-# Container for started client objects
+# Container for started client objects — populated by main.py's async main()
 clients = {}
 
-# Create TelegramClient objects for all X1..X10 so modules can register handlers on them even if not started.
+# Create TelegramClient objects for X1..X10 so modules can register handlers on them.
+# NOTE: Clients are NOT started here — starting is done inside main.py's async main()
+# so the clients live on the correct persistent event loop.
 for i in range(1, 11):
     name = f"X{i}"
     globals()[name] = TelegramClient(name, API_ID, API_HASH)
-
-# Initialize only the requested number of active bot clients, sequentially and with FloodWait handling.
-all_tokens = BOT_TOKENS
-to_start = all_tokens if START_ALL else all_tokens[:ACTIVE_BOT_COUNT]
-
-for idx, token in enumerate(to_start, start=1):
-    name = f"X{idx}"
-    client = globals().get(name)
-    if client is None:
-        logging.info("Client %s not available, skipping", name)
-        continue
-
-    if not token:
-        logging.info("No token provided for %s, skipping start", name)
-        # keep client object in globals() so modules can register handlers
-        continue
-
-    try:
-        # start() can return None; don't reassign that to globals()[name]
-        client.start(bot_token=token)
-        globals()[name] = client
-        clients[name] = client
-        logging.info("%s started successfully", name)
-    except FloodWaitError as e:
-        wait_seconds = getattr(e, "seconds", None) or 0
-        logging.warning("FloodWaitError when starting %s: waiting %s seconds", name, wait_seconds)
-        if wait_seconds > 0:
-            time.sleep(wait_seconds + 1)
-            # retry once after waiting
-            try:
-                client.start(bot_token=token)
-                globals()[name] = client
-                clients[name] = client
-                logging.info("%s started successfully after waiting", name)
-            except Exception as e2:
-                logging.error("Failed to start %s after wait: %s", name, e2)
-                # keep the client object (unstarted) so modules can attach handlers
-                globals()[name] = client
-        else:
-            globals()[name] = client
-    except Exception as exc:
-        logging.error("Unexpected error while starting %s: %s", name, exc)
-        globals()[name] = client
-
-# Ensure X1..X10 are defined in globals (they already are), set any missing to None for safety
-for i in range(1, 11):
-    varname = f"X{i}"
-    if varname not in globals():
-        globals()[varname] = None
