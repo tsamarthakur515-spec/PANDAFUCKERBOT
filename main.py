@@ -5,32 +5,8 @@ import logging
 import importlib
 import urllib3
 import os
-from flask import Flask
-from threading import Thread
 from pathlib import Path
 from config import X1, X2, X3, X4, X5, X6, X7, X8, X9, X10, clients
-
-# --- KEEP ALIVE SECTION START ---
-app_web = Flask(__name__)
-
-@app_web.route('/')
-@app_web.route('/health') # Snapdeploy health check ke liye
-def home():
-    return "Altron Bot is Running!", 200
-
-def run_web():
-    # Snapdeploy/Render ke port ko auto-detect karega
-    port = int(os.environ.get("PORT", 8000))
-    try:
-        app_web.run(host='0.0.0.0', port=port)
-    except OSError as e:
-        logging.warning("Web server failed to start on port %s: %s", port, e)
-
-def keep_alive():
-    t = Thread(target=run_web)
-    t.daemon = True
-    t.start()
-# --- KEEP ALIVE SECTION END ---
 
 logging.basicConfig(format='[%(levelname) 5s/%(asctime)s] %(name)s: %(message)s', level=logging.WARNING)
 urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
@@ -45,11 +21,10 @@ def load_plugins(plugin_name):
     sys.modules["AltBots.modules." + plugin_name] = load
     print("Altron has Imported " + plugin_name)
 
-# Plugins load karne se pehle web server start karein
-if __name__ == "__main__":
-    keep_alive()
-    print("Web Server Started for Health Check...")
 
+if __name__ == "__main__":
+    # Load all modules (no web server / Flask anymore)
+    print("Loading modules...")
     files = glob.glob("AltBots/modules/*.py")
     for name in files:
         with open(name) as a:
@@ -57,46 +32,52 @@ if __name__ == "__main__":
             plugin_name = patt.stem
             load_plugins(plugin_name.replace(".py", ""))
 
-    print("\nAltron has successfully imported all modules.\nMy Master ---> @Theshonaqueen")
+    print("\nAltron has successfully imported all modules.")
 
     async def main():
-        # Sabhi clients ko start/connect karein aur sirf connected clients ko run_until_disconnected pe daalein
+        # Schedule run_until_disconnected only for clients that are connected (or can connect now).
         tasks = []
 
-        # Prefer clients that were started/registered in config (clients dict).
         for name, c in clients.items():
             if c is None:
                 logging.info("Configured client %s is None, skipping", name)
                 continue
             try:
-                # Ensure client is connected; connect() is a coroutine
+                # If already connected, schedule running
                 if hasattr(c, "is_connected") and c.is_connected():
-                    tasks.append(c.run_until_disconnected())
+                    tasks.append(asyncio.create_task(c.run_until_disconnected()))
+                    logging.info("Scheduled %s (already connected)", name)
+                    continue
+
+                # Otherwise, try to connect (coroutine)
+                await c.connect()
+                if hasattr(c, "is_connected") and c.is_connected():
+                    tasks.append(asyncio.create_task(c.run_until_disconnected()))
+                    logging.info("Scheduled %s after connect", name)
                 else:
-                    await c.connect()
-                    if hasattr(c, "is_connected") and c.is_connected():
-                        tasks.append(c.run_until_disconnected())
-                    else:
-                        logging.warning("Client %s failed to connect", name)
+                    logging.warning("Client %s failed to connect", name)
             except Exception as e:
                 logging.warning("Configured client %s couldn't connect/run: %s", name, e)
 
-        # Fallback: try to connect any X1..X10 client objects if clients dict was empty or some are missing
+        # Fallback: try raw X1..X10 objects in case clients dict is empty
         if not tasks:
-            for client in (X1, X2, X3, X4, X5, X6, X7, X8, X9, X10):
+            for idx, client in enumerate((X1, X2, X3, X4, X5, X6, X7, X8, X9, X10), start=1):
+                name = f"X{idx}"
                 if client is None:
                     continue
                 try:
                     if hasattr(client, "is_connected") and client.is_connected():
-                        tasks.append(client.run_until_disconnected())
+                        tasks.append(asyncio.create_task(client.run_until_disconnected()))
+                        logging.info("Scheduled %s (already connected)", name)
                         continue
                     await client.connect()
                     if hasattr(client, "is_connected") and client.is_connected():
-                        tasks.append(client.run_until_disconnected())
+                        tasks.append(asyncio.create_task(client.run_until_disconnected()))
+                        logging.info("Scheduled %s after connect", name)
                     else:
-                        logging.warning("Client %s failed to connect", getattr(client, 'session', repr(client)))
+                        logging.warning("Client %s failed to connect", name)
                 except Exception as e:
-                    logging.warning("Client %s skipped: %s", getattr(client, 'session', repr(client)), e)
+                    logging.warning("Client %s skipped: %s", name, e)
 
         if not tasks:
             logging.error("No clients available to run. Exiting.")
