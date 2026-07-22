@@ -6,7 +6,13 @@ import importlib
 import urllib3
 import os
 from pathlib import Path
-from config import X1, X2, X3, X4, X5, X6, X7, X8, X9, X10, clients
+from telethon.errors.rpcerrorlist import FloodWaitError
+
+from config import (
+    X1, X2, X3, X4, X5, X6, X7, X8, X9, X10,
+    BOT_TOKENS, ACTIVE_BOT_COUNT, START_ALL,
+    clients
+)
 
 logging.basicConfig(format='[%(levelname) 5s/%(asctime)s] %(name)s: %(message)s', level=logging.WARNING)
 urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
@@ -22,6 +28,33 @@ def load_plugins(plugin_name):
     print("Altron has Imported " + plugin_name)
 
 
+async def start_client(client, name, token):
+    """Start a single TelegramClient in the running async context."""
+    if not token:
+        logging.info("No token for %s, skipping", name)
+        return None
+    try:
+        await client.start(bot_token=token)
+        logging.info("%s started successfully", name)
+        return client
+    except FloodWaitError as e:
+        wait_seconds = getattr(e, "seconds", None) or 0
+        logging.warning("FloodWaitError on %s: waiting %s seconds", name, wait_seconds)
+        if wait_seconds > 0:
+            await asyncio.sleep(wait_seconds + 1)
+            try:
+                await client.start(bot_token=token)
+                logging.info("%s started after wait", name)
+                return client
+            except Exception as e2:
+                logging.error("Failed to start %s after wait: %s", name, e2)
+                return None
+        return None
+    except Exception as exc:
+        logging.error("Error starting %s: %s", name, exc)
+        return None
+
+
 if __name__ == "__main__":
     # Load all modules (no web server / Flask anymore)
     print("Loading modules...")
@@ -35,58 +68,52 @@ if __name__ == "__main__":
     print("\nAltron has successfully imported all modules.")
 
     async def main():
-        # Schedule run_until_disconnected only for clients that are connected (or can connect now).
-        tasks = []
+        # Decide which tokens to start
+        all_tokens = BOT_TOKENS
+        to_start = all_tokens if START_ALL else all_tokens[:ACTIVE_BOT_COUNT]
 
-        for name, c in clients.items():
-            if c is None:
-                logging.info("Configured client %s is None, skipping", name)
+        # Build a list of (client, name, token) from the created TelegramClient objects
+        bot_clients = []
+        all_bots = [X1, X2, X3, X4, X5, X6, X7, X8, X9, X10]
+
+        for idx, token in enumerate(to_start, start=1):
+            if idx > len(all_bots):
+                break
+            client = all_bots[idx - 1]
+            if client is None:
+                logging.info("Client X%s not available, skipping", idx)
                 continue
-            try:
-                # If already connected, schedule running
-                if hasattr(c, "is_connected") and c.is_connected():
-                    tasks.append(asyncio.create_task(c.run_until_disconnected()))
-                    logging.info("Scheduled %s (already connected)", name)
-                    continue
+            bot_clients.append((client, f"X{idx}", token))
 
-                # Otherwise, try to connect (coroutine)
-                await c.connect()
-                if hasattr(c, "is_connected") and c.is_connected():
-                    tasks.append(asyncio.create_task(c.run_until_disconnected()))
-                    logging.info("Scheduled %s after connect", name)
-                else:
-                    logging.warning("Client %s failed to connect", name)
-            except Exception as e:
-                logging.warning("Configured client %s couldn't connect/run: %s", name, e)
+        # Start each client in the current async context
+        started_clients = []
+        for client, name, token in bot_clients:
+            result = await start_client(client, name, token)
+            if result is not None:
+                clients[name] = result
+                started_clients.append(result)
 
-        # Fallback: try raw X1..X10 objects in case clients dict is empty
-        if not tasks:
-            for idx, client in enumerate((X1, X2, X3, X4, X5, X6, X7, X8, X9, X10), start=1):
-                name = f"X{idx}"
-                if client is None:
-                    continue
-                try:
-                    if hasattr(client, "is_connected") and client.is_connected():
-                        tasks.append(asyncio.create_task(client.run_until_disconnected()))
-                        logging.info("Scheduled %s (already connected)", name)
-                        continue
-                    await client.connect()
-                    if hasattr(client, "is_connected") and client.is_connected():
-                        tasks.append(asyncio.create_task(client.run_until_disconnected()))
-                        logging.info("Scheduled %s after connect", name)
-                    else:
-                        logging.warning("Client %s failed to connect", name)
-                except Exception as e:
-                    logging.warning("Client %s skipped: %s", name, e)
-
-        if not tasks:
-            logging.error("No clients available to run. Exiting.")
+        if not started_clients:
+            logging.error("No clients started. Exiting.")
             return
 
+        # Schedule run_until_disconnected for each started client
+        tasks = []
+        for c in started_clients:
+            tasks.append(asyncio.create_task(c.run_until_disconnected()))
+            logging.info("Scheduled %s for updates", next(
+                (k for k, v in clients.items() if v is c), "?"
+            ))
+
+        # Run all client tasks together
         await asyncio.gather(*tasks)
 
-    loop = asyncio.get_event_loop()
+    # Use new_event_loop to avoid deprecation warnings on Python 3.10+
+    loop = asyncio.new_event_loop()
+    asyncio.set_event_loop(loop)
     try:
         loop.run_until_complete(main())
     except KeyboardInterrupt:
         pass
+    finally:
+        loop.close()
