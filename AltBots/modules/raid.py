@@ -4,7 +4,7 @@ from random import choice
 from telethon import events
 
 from config import X1, X2, X3, X4, X5, X6, X7, X8, X9, X10, SUDO_USERS, OWNER_ID, CMD_HNDLR as hl
-from AltBots.data import RAID, REPLYRAID, ALTRON, MRAID, SRAID, CRAID, ALTRON
+from AltBots.data import RAID, REPLYRAID, ALTRON, MRAID, SRAID, CRAID
 
 REPLY_RAID = []
 
@@ -263,4 +263,3 @@ async def craid(e):
             await e.reply(f"𝗠𝗼𝗱𝘂𝗹𝗲 𝗡𝗮𝗺𝗲: 𝐂𝗥𝗮𝗶𝗱\n  » {hl}raid <ᴄᴏᴜɴᴛ> <ᴜꜱᴇʀɴᴀᴍᴇ ᴏꜰ ᴜꜱᴇʀ>\n  » {hl}raid <ᴄᴏᴜɴᴛ> <ʀᴇᴘʟʏ ᴛᴏ ᴀ ᴜꜱᴇʀ>")
         except Exception as e:
             print(e)
-
