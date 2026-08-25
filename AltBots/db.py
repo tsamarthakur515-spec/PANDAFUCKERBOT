@@ -1,6 +1,6 @@
 """
 Persistent sudo storage via Supabase (asyncpg).
-Same project as Swastika, different table prefix: swastika_
+Same project as Swastika, different table prefix: Swastika_
 """
 
 import logging
@@ -18,7 +18,7 @@ DB_PORT = int(getenv("DB_PORT", "5432"))
 DB_USER = getenv("DB_USER", "postgres.knvwrfdzjsyxjjybopfb")
 DB_PASSWORD = getenv("DB_PASSWORD", "db_swstika_music")
 DB_NAME = getenv("DB_NAME", "postgres")
-TABLE_PREFIX = getenv("TABLE_PREFIX", "swastika_")
+TABLE_PREFIX = getenv("TABLE_PREFIX", "Swastika_")
 
 T_SUDOERS = f"{TABLE_PREFIX}sudoers"
 
