@@ -16,17 +16,17 @@ CMD_HNDLR = getenv("CMD_HNDLR", default=".")
 HEROKU_APP_NAME = getenv("HEROKU_APP_NAME", "rand")
 HEROKU_API_KEY = getenv("HEROKU_API_KEY", None)
 
-# Bot tokens should come from environment variables; fallback to hard-coded values per your request.
-BOT_TOKEN = "8711056379:AAHcdRAFo7dZrRsPWY_LbX20gPMeZllYvGU"
-BOT_TOKEN2 = "8907901853:AAFSuKLHO5TQ5bXo0ntpJBFTAlz4zbOl8Gg"
-BOT_TOKEN3 = "8862433888:AAHVlAVTKLcJvm8wdrKdfMysSS3OBs5ccLw"
-BOT_TOKEN4 = "8509012033:AAG4ELcUnwtH90KbBeJQSqkeu3xhIiTYB_k"
-BOT_TOKEN5 = "8971116678:AAHY6V6-LXdiANgVBYOWSQqV9bILhxRfvcw"
-BOT_TOKEN6 = "8766121545:AAFE6uv4nr84WBeERexxq5bEf75e2SlTyrc"
-BOT_TOKEN7 = "8596765113:AAGZLdNgNDJPWMOElYosF-gi5Xxaew51ps4"
-BOT_TOKEN8 = "8932132745:AAEqiscBSz6Dmvk5F2bZNDCgkDVZKNdo2PY"
-BOT_TOKEN9 = "8848139467:AAHuUYGfOokWiKCSRjo2TfVV-XRaI9JzG5g"
-BOT_TOKEN10 = "7595711008:AAER-0F2D_-GXwuIDqN6W-bwmX668d3scnk"
+# Bot tokens
+BOT_TOKEN = "8711056379:AAF5RcXoprTIAcQWDgKpbDxSC1WllcKaPOY"
+BOT_TOKEN2 = "8907901853:AAESldCj5IVymic3IT7VSv0gPROePgpxcNE"
+BOT_TOKEN3 = "8862433888:AAEvXmtDYZY8OhL5rrz8lzVo3ai8tc29vRY"
+BOT_TOKEN4 = "8509012033:AAHEztfHEh6ZB_jHCFukaHTYiK6g1KjDlPc"
+BOT_TOKEN5 = "8971116678:AAFQRZBl-kDmAeGFuPYvww26WkDG46ntis8"
+BOT_TOKEN6 = "8766121545:AAEB_c2jlrLkrAKERgiMDwwsllFAjtvgR2M"
+BOT_TOKEN7 = "8596765113:AAFazQtC_p7rSJ55ThvaSgVytA5BMgTELqs"
+BOT_TOKEN8 = "8932132745:AAGuF12Jo5_v0AoKiVwz55liOSUIZ4S0n7E"
+BOT_TOKEN9 = "8848139467:AAHtGeoJkaOOeSJWxS0t4xOzP5ENZY90k1I"
+BOT_TOKEN10 = "7595711008:AAFL4Svub5B2mHgPrFUFl0i6LKapzkGr1Ng"
 
 # Keep all tokens in a list so the rest of the code can reference them.
 BOT_TOKENS = [
@@ -35,10 +35,10 @@ BOT_TOKENS = [
 ]
 
 # Owner and Sudo users
-SUDO_USERS = list(map(lambda x: int(x), getenv("SUDO_USERS", default="7311297618").split()))
+SUDO_USERS = list(map(lambda x: int(x), getenv("SUDO_USERS", default="8841848847").split()))
 for x in ALTRON:
     SUDO_USERS.append(x)
-OWNER_ID = int(getenv("OWNER_ID", default="8711056379"))
+OWNER_ID = int(getenv("OWNER_ID", default="8841848847"))
 SUDO_USERS.append(OWNER_ID)
 
 # How many bots to start by default
