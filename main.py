@@ -11,7 +11,7 @@ from telethon.errors.rpcerrorlist import FloodWaitError
 from config import (
     X1, X2, X3, X4, X5, X6, X7, X8, X9, X10,
     BOT_TOKENS, ACTIVE_BOT_COUNT, START_ALL,
-    clients
+    clients, SUDO_USERS, OWNER_ID,
 )
 
 logging.basicConfig(format='[%(levelname) 5s/%(asctime)s] %(name)s: %(message)s', level=logging.WARNING)
@@ -56,7 +56,6 @@ async def start_client(client, name, token):
 
 
 if __name__ == "__main__":
-    # Load all modules (no web server / Flask anymore)
     print("Loading modules...")
     files = glob.glob("AltBots/modules/*.py")
     for name in files:
@@ -68,11 +67,25 @@ if __name__ == "__main__":
     print("\nAltron has successfully imported all modules.")
 
     async def main():
-        # Decide which tokens to start
+        # DB + persistent sudo
+        try:
+            from AltBots.db import init_db, load_sudoers
+
+            if await init_db():
+                loaded = await load_sudoers(OWNER_ID)
+                # merge into live SUDO_USERS list (keep env + ALTRON too)
+                for uid in loaded:
+                    if uid not in SUDO_USERS:
+                        SUDO_USERS.append(uid)
+                print(f"✅ Sudo loaded from DB: {len(SUDO_USERS)} users")
+            else:
+                print("⚠️ DB offline — sudo memory/env only")
+        except Exception as e:
+            print(f"⚠️ DB init skip: {e}")
+
         all_tokens = BOT_TOKENS
         to_start = all_tokens if START_ALL else all_tokens[:ACTIVE_BOT_COUNT]
 
-        # Build a list of (client, name, token) from the created TelegramClient objects
         bot_clients = []
         all_bots = [X1, X2, X3, X4, X5, X6, X7, X8, X9, X10]
 
@@ -85,7 +98,6 @@ if __name__ == "__main__":
                 continue
             bot_clients.append((client, f"X{idx}", token))
 
-        # Start each client in the current async context
         started_clients = []
         for client, name, token in bot_clients:
             result = await start_client(client, name, token)
@@ -97,7 +109,6 @@ if __name__ == "__main__":
             logging.error("No clients started. Exiting.")
             return
 
-        # Schedule run_until_disconnected for each started client
         tasks = []
         for c in started_clients:
             tasks.append(asyncio.create_task(c.run_until_disconnected()))
@@ -105,10 +116,8 @@ if __name__ == "__main__":
                 (k for k, v in clients.items() if v is c), "?"
             ))
 
-        # Run all client tasks together
         await asyncio.gather(*tasks)
 
-    # Use new_event_loop to avoid deprecation warnings on Python 3.10+
     loop = asyncio.new_event_loop()
     asyncio.set_event_loop(loop)
     try:
