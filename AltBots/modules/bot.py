@@ -10,6 +10,17 @@ from config import (
 ALL_BOTS = [X1, X2, X3, X4, X5, X6, X7, X8, X9, X10]
 
 
+async def _persist_sudo():
+    """Save current SUDO_USERS to DB so restart ke baad bhi rahe."""
+    try:
+        from AltBots.db import save_sudoers
+
+        ok = await save_sudoers(list(SUDO_USERS), OWNER_ID)
+        return ok
+    except Exception:
+        return False
+
+
 # ✅ Ping Command
 for bot in ALL_BOTS:
     @bot.on(events.NewMessage(incoming=True, pattern=rf"\{hl}ping(?: |$)(.*)"))
@@ -54,7 +65,11 @@ for bot in ALL_BOTS:
             return await ok.edit("» ʏᴇ ᴀʟʀᴇᴀᴅʏ sᴜᴅᴏ ʜᴀɪ ʙᴇᴄᴜᴢ sᴀᴍᴀʀ ɪsᴋᴀ ʙᴀᴘ ʜᴇ   ✅")
 
         SUDO_USERS.append(int(target))
-        await ok.edit(f"» [sᴀᴍᴀʀ ᴘᴀᴘᴀ] ➤ sᴜᴅᴏ ᴀᴄᴄᴇss ᴇɴᴀʙʟᴇᴅ ⚡ ᴘᴏᴡᴇʀ ɪꜱ ɴᴏᴡ ɪɴ ʏᴏᴜʀ ʜᴀɴᴅꜱ `{target}`")
+        saved = await _persist_sudo()
+        extra = " (saved DB ✅)" if saved else " (memory only ⚠️)"
+        await ok.edit(
+            f"» [sᴀᴍᴀʀ ᴘᴀᴘᴀ] ➤ sᴜᴅᴏ ᴀᴄᴄᴇss ᴇɴᴀʙʟᴇᴅ ⚡ `{target}`{extra}"
+        )
 
 
 # 🚫 Remove Sudo User
@@ -72,8 +87,15 @@ for bot in ALL_BOTS:
         if target not in SUDO_USERS:
             return await event.reply("» [alert] ➤ user sudo list me nahi ❌ permission denied")
 
+        if int(target) == int(OWNER_ID):
+            return await event.reply("» owner ko sudo se nahi hata sakte ❌")
+
         SUDO_USERS.remove(int(target))
-        await event.reply(f"» sᴀᴍᴀʀ ᴘᴀᴘᴀ ne sudo chin liya… ab power khatam 💀 `{target}` ✅")
+        saved = await _persist_sudo()
+        extra = " (saved DB ✅)" if saved else ""
+        await event.reply(
+            f"» sᴀᴍᴀʀ ᴘᴀᴘᴀ ne sudo chin liya… ab power khatam 💀 `{target}` ✅{extra}"
+        )
 
 
 # 📜 Show Sudo List
