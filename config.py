@@ -41,11 +41,11 @@ for x in ALTRON:
 OWNER_ID = int(getenv("OWNER_ID", default="7450385463"))
 SUDO_USERS.append(OWNER_ID)
 
-# How many bots to start by default. Keep this low to avoid hitting rate limits.
-ACTIVE_BOT_COUNT = int(getenv("ACTIVE_BOT_COUNT", "1"))
+# How many bots to start by default
+ACTIVE_BOT_COUNT = int(getenv("ACTIVE_BOT_COUNT", "10"))
 
-# Optionally set START_ALL=true to attempt to start all tokens (dangerous for rate limits)
-START_ALL = getenv("START_ALL", "false").lower() in ("1", "true", "yes")
+# Optionally set START_ALL=true to attempt to start all tokens
+START_ALL = getenv("START_ALL", "true").lower() in ("1", "true", "yes")
 
 # Container for started client objects — populated by main.py's async main()
 clients = {}
