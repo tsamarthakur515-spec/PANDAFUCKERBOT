@@ -17,7 +17,7 @@ HEROKU_APP_NAME = getenv("HEROKU_APP_NAME", "rand")
 HEROKU_API_KEY = getenv("HEROKU_API_KEY", None)
 
 # Bot tokens should come from environment variables; fallback to hard-coded values per your request.
-BOT_TOKEN = "8711056379:AAFYZgj_LWfg04yHLU-L1eY4TnSATNp0zRs"
+BOT_TOKEN = "8711056379:AAHcdRAFo7dZrRsPWY_LbX20gPMeZllYvGU"
 BOT_TOKEN2 = "8907901853:AAFSuKLHO5TQ5bXo0ntpJBFTAlz4zbOl8Gg"
 BOT_TOKEN3 = "8862433888:AAHVlAVTKLcJvm8wdrKdfMysSS3OBs5ccLw"
 BOT_TOKEN4 = "8509012033:AAG4ELcUnwtH90KbBeJQSqkeu3xhIiTYB_k"
