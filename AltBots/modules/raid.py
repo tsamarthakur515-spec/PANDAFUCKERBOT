@@ -2,7 +2,7 @@ import asyncio
 from random import choice, sample
 
 from telethon import events
-from telethon.tl.types import MessageEntityCustomEmoji
+from telethon.tl.types import MessageEntityCustomEmoji, MessageEntityTextUrl
 
 from config import X1, X2, X3, X4, X5, X6, X7, X8, X9, X10, SUDO_USERS, OWNER_ID, CMD_HNDLR as hl
 from AltBots.data import RAID, REPLYRAID, ALTRON, MRAID, SRAID, CRAID
@@ -70,8 +70,6 @@ _EMOJI_BASE = "\u200b"  # zero-width space fallback — Telegram needs a char; e
 def two_premium_emojis():
     """Return (prefix_text, formatting_entities) — 2 random premium custom emojis only."""
     ids = sample(CUSTOM_EMOJI_IDS, 2)
-    # Use a single BMP emoji as base that gets fully replaced by custom emoji rendering
-    base = "\U0001F3F7"  # 🏷 tag — length 2 in UTF-16
     # Prefer length-1 BMP for simpler offsets: use "\u2060" word joiner (invisible)
     base = "\u2060"
     text = base + base + " "
@@ -82,10 +80,28 @@ def two_premium_emojis():
     return text, entities
 
 
-async def send_with_premium_emojis(client, chat_id, body, reply_to=None):
-    """Send text with 2 premium custom emojis prefix (no normal emoji)."""
+async def send_with_premium_emojis(client, chat_id, body, reply_to=None, mention_name=None, mention_id=None):
+    """Send text with 2 premium custom emojis + optional clickable name (no raw ID/markdown)."""
     prefix, ents = two_premium_emojis()
-    text = prefix + body
+
+    if mention_name and mention_id:
+        # Clean name (avoid None / empty)
+        name = (mention_name or "User").strip() or "User"
+        full_text = prefix + name + " " + body
+        # prefix length = 3 (2 zero-width + space)
+        mention_offset = 3
+        mention_length = len(name)
+        ents.append(
+            MessageEntityTextUrl(
+                offset=mention_offset,
+                length=mention_length,
+                url=f"tg://user?id={mention_id}"
+            )
+        )
+        text = full_text
+    else:
+        text = prefix + body
+
     kwargs = {"formatting_entities": ents}
     if reply_to is not None:
         kwargs["reply_to"] = reply_to
@@ -123,13 +139,17 @@ async def raid(e):
             elif uid in SUDO_USERS:
                 await e.reply("ɴᴏ, ᴛʜɪꜱ ɢᴜʏ ɪꜱ ᴀ ꜱᴜᴅᴏ ᴜꜱᴇʀ.")
             else:
-                first_name = entity.first_name
+                first_name = entity.first_name or "User"
                 counter = int(xraid[1])
-                username = f"[{first_name}](tg://user?id={uid})"
                 for _ in range(counter):
                     reply = choice(RAID)
-                    body = f"{username} {reply}"
-                    await send_with_premium_emojis(e.client, e.chat_id, body)
+                    await send_with_premium_emojis(
+                        e.client,
+                        e.chat_id,
+                        reply,
+                        mention_name=first_name,
+                        mention_id=uid,
+                    )
                     await asyncio.sleep(0.0)
         except (IndexError, ValueError, NameError):
             await e.reply(f"𝗠𝗼𝗱𝘂𝗹𝗲 𝗡𝗮𝗺𝗲: 𝐑𝐚𝐢𝐝\n  » {hl}raid <ᴄᴏᴜɴᴛ> <ᴜꜱᴇʀɴᴀᴍᴇ ᴏꜰ ᴜꜱᴇʀ>\n  » {hl}raid <ᴄᴏᴜɴᴛ> <ʀᴇᴘʟʏ ᴛᴏ ᴀ ᴜꜱᴇʀ>")
@@ -253,13 +273,17 @@ async def mraid(e):
             uid = entity.id
 
         try:
-            first_name = entity.first_name
+            first_name = entity.first_name or "User"
             counter = int(xraid[1])
-            username = f"[{first_name}](tg://user?id={uid})"
             for _ in range(counter):
                 reply = choice(MRAID)
-                body = f"{username} {reply}"
-                await send_with_premium_emojis(e.client, e.chat_id, body)
+                await send_with_premium_emojis(
+                    e.client,
+                    e.chat_id,
+                    reply,
+                    mention_name=first_name,
+                    mention_id=uid,
+                )
                 await asyncio.sleep(0.0)
         except (IndexError, ValueError, NameError):
             await e.reply(f"𝗠𝗼𝗱𝘂𝗹𝗲 𝗡𝗮𝗺𝗲: 𝗠𝗥𝗮𝗶𝗱\n  » {hl}mraid <ᴄᴏᴜɴᴛ> <ᴜꜱᴇʀɴᴀᴍᴇ ᴏꜰ ᴜꜱᴇʀ>\n  » {hl}mraid <ᴄᴏᴜɴᴛ> <ʀᴇᴘʟʏ ᴛᴏ ᴀ ᴜꜱᴇʀ>")
@@ -291,13 +315,17 @@ async def sraid(e):
             uid = entity.id
 
         try:
-            first_name = entity.first_name
+            first_name = entity.first_name or "User"
             counter = int(xraid[1])
-            username = f"[{first_name}](tg://user?id={uid})"
             for _ in range(counter):
                 reply = choice(SRAID)
-                body = f"{username} {reply}"
-                await send_with_premium_emojis(e.client, e.chat_id, body)
+                await send_with_premium_emojis(
+                    e.client,
+                    e.chat_id,
+                    reply,
+                    mention_name=first_name,
+                    mention_id=uid,
+                )
                 await asyncio.sleep(0.0)
         except (IndexError, ValueError, NameError):
             await e.reply(f"𝗠𝗼𝗱𝘂𝗹𝗲 𝗡𝗮𝗺𝗲: 𝗦𝗥𝗮𝗶𝗱\n  » {hl}sraid <ᴄᴏᴜɴᴛ> <ᴜꜱᴇʀɴᴀᴍᴇ ᴏꜰ ᴜꜱᴇʀ>\n  » {hl}sraid <ᴄᴏᴜɴᴛ> <ʀᴇᴘʟʏ ᴛᴏ ᴀ ᴜꜱᴇʀ>")
@@ -336,15 +364,19 @@ async def craid(e):
             elif uid in SUDO_USERS:
                 await e.reply("ɴᴏ, ᴛʜɪꜱ ɢᴜʏ ɪꜱ ᴀ ꜱᴜᴅᴏ ᴜꜱᴇʀ.")
             else:
-                first_name = entity.first_name
+                first_name = entity.first_name or "User"
                 counter = int(xraid[1])
-                username = f"[{first_name}](tg://user?id={uid})"
                 for _ in range(counter):
                     reply = choice(CRAID)
-                    body = f"{username} {reply}"
-                    await send_with_premium_emojis(e.client, e.chat_id, body)
+                    await send_with_premium_emojis(
+                        e.client,
+                        e.chat_id,
+                        reply,
+                        mention_name=first_name,
+                        mention_id=uid,
+                    )
                     await asyncio.sleep(0.0)
         except (IndexError, ValueError, NameError):
-            await e.reply(f"𝗠𝗼𝗱𝘂𝗹𝗲 𝗡𝗮𝗺𝗲: 𝐂𝗥𝗮𝗶𝗱\n  » {hl}raid <ᴄᴏᴜɴᴛ> <ᴜꜱᴇʀɴᴀᴍᴇ ᴏꜰ ᴜꜱᴇʀ>\n  » {hl}raid <ᴄᴏᴜɴᴛ> <ʀᴇᴘʟʏ ᴛᴏ ᴀ ᴜꜱᴇʀ>")
+            await e.reply(f"𝗠𝗼𝗱𝘂𝗹𝗲 𝗡𝗮𝗺𝗲: 𝐂𝗥𝗮𝗶𝗱\n  » {hl}craid <ᴄᴏᴜɴᴛ> <ᴜꜱᴇʀɴᴀᴍᴇ ᴏꜰ ᴜꜱᴇʀ>\n  » {hl}craid <ᴄᴏᴜɴᴛ> <ʀᴇᴘʟʏ ᴛᴏ ᴀ ᴜꜱᴇʀ>")
         except Exception as e:
             print(e)
