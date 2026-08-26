@@ -1,5 +1,5 @@
 import sys
-from os import execl, getenv
+from os import execl
 from telethon import events
 from datetime import datetime
 from config import (
@@ -41,7 +41,11 @@ for bot in ALL_BOTS:
     async def reboot(e):
         if e.sender_id in SUDO_USERS:
             await e.reply("`sᴀᴍᴀʀ ᴘᴀᴘᴀ ᴋᴀ ᴄᴏᴍᴇʙᴀᴄᴋ ʜᴏ ɢʏᴀ ʙᴀᴄᴄʜᴇ 😈`")
-            await bot.disconnect()
+            # Use e.client — NOT loop variable `bot` (closure bug)
+            try:
+                await e.client.disconnect()
+            except Exception:
+                pass
             execl(sys.executable, sys.executable, *sys.argv)
         else:
             await e.reply("» ᴘʜᴀʟᴇ sᴀᴍᴀʀ ᴘᴀᴘᴀ sᴀ sᴜᴅᴏ ʟᴇʟᴇ ʙᴋʟ 👿")
@@ -102,6 +106,8 @@ for bot in ALL_BOTS:
 for bot in ALL_BOTS:
     @bot.on(events.NewMessage(incoming=True, pattern=rf"\{hl}sudolist(?: |$)(.*)"))
     async def sudo_list(event):
+        if event.sender_id not in SUDO_USERS:
+            return await event.reply("» ᴘʜᴀʟᴇ sᴜᴅᴏ ʟᴇʟᴇ ❌")
         if not SUDO_USERS:
             return await event.reply("» abhi tak koi sudo user add nahi hua ❌")
 
