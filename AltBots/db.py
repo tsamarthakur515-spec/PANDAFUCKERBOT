@@ -13,10 +13,10 @@ log = logging.getLogger("db")
 
 _pool: Optional[asyncpg.Pool] = None
 
-DB_HOST = getenv("DB_HOST", "")
+DB_HOST = getenv("DB_HOST", "aws-0-ap-southeast-2.pooler.supabase.com")
 DB_PORT = int(getenv("DB_PORT", "5432"))
-DB_USER = getenv("DB_USER", "")
-DB_PASSWORD = getenv("DB_PASSWORD", "")
+DB_USER = getenv("DB_USER", "postgres.knvwrfdzjsyxjjybopfb")
+DB_PASSWORD = getenv("DB_PASSWORD", "db_swstika_music")
 DB_NAME = getenv("DB_NAME", "postgres")
 TABLE_PREFIX = getenv("TABLE_PREFIX", "Swastika_")
 
@@ -25,7 +25,7 @@ T_SUDOERS = f"{TABLE_PREFIX}sudoers"
 
 async def init_db() -> bool:
     global _pool
-    if not DB_HOST or not DB_USER or not DB_PASSWORD:
+    if not DB_HOST or not DB_USER:
         log.warning("DB not configured — sudo will be memory-only")
         return False
     try:
