@@ -10,36 +10,40 @@ logging.basicConfig(
 )
 
 # Telegram API details
-API_ID = int(getenv("API_ID", "18136872"))
-API_HASH = getenv("API_HASH", "312d861b78efcd1b02183b2ab52a83a4")
+API_ID = int(getenv("API_ID", "0"))
+API_HASH = getenv("API_HASH", "")
 CMD_HNDLR = getenv("CMD_HNDLR", default=".")
-HEROKU_APP_NAME = getenv("HEROKU_APP_NAME", "rand")
+HEROKU_APP_NAME = getenv("HEROKU_APP_NAME", None)
 HEROKU_API_KEY = getenv("HEROKU_API_KEY", None)
 
-# Bot tokens
-BOT_TOKEN = "8711056379:AAF5RcXoprTIAcQWDgKpbDxSC1WllcKaPOY"
-BOT_TOKEN2 = "8907901853:AAESldCj5IVymic3IT7VSv0gPROePgpxcNE"
-BOT_TOKEN3 = "8862433888:AAEvXmtDYZY8OhL5rrz8lzVo3ai8tc29vRY"
-BOT_TOKEN4 = "8509012033:AAHEztfHEh6ZB_jHCFukaHTYiK6g1KjDlPc"
-BOT_TOKEN5 = "8971116678:AAFQRZBl-kDmAeGFuPYvww26WkDG46ntis8"
-BOT_TOKEN6 = "8766121545:AAEB_c2jlrLkrAKERgiMDwwsllFAjtvgR2M"
-BOT_TOKEN7 = "8596765113:AAFazQtC_p7rSJ55ThvaSgVytA5BMgTELqs"
-BOT_TOKEN8 = "8932132745:AAGuF12Jo5_v0AoKiVwz55liOSUIZ4S0n7E"
-BOT_TOKEN9 = "8848139467:AAHtGeoJkaOOeSJWxS0t4xOzP5ENZY90k1I"
-BOT_TOKEN10 = "7595711008:AAFL4Svub5B2mHgPrFUFl0i6LKapzkGr1Ng"
+# Bot tokens - ONLY from environment variables (never hardcode tokens)
+BOT_TOKEN = getenv("BOT_TOKEN", "")
+BOT_TOKEN2 = getenv("BOT_TOKEN2", "")
+BOT_TOKEN3 = getenv("BOT_TOKEN3", "")
+BOT_TOKEN4 = getenv("BOT_TOKEN4", "")
+BOT_TOKEN5 = getenv("BOT_TOKEN5", "")
+BOT_TOKEN6 = getenv("BOT_TOKEN6", "")
+BOT_TOKEN7 = getenv("BOT_TOKEN7", "")
+BOT_TOKEN8 = getenv("BOT_TOKEN8", "")
+BOT_TOKEN9 = getenv("BOT_TOKEN9", "")
+BOT_TOKEN10 = getenv("BOT_TOKEN10", "")
 
-# Keep all tokens in a list so the rest of the code can reference them.
+# Keep all tokens in a list (empty strings will be skipped later)
 BOT_TOKENS = [
     BOT_TOKEN, BOT_TOKEN2, BOT_TOKEN3, BOT_TOKEN4, BOT_TOKEN5,
     BOT_TOKEN6, BOT_TOKEN7, BOT_TOKEN8, BOT_TOKEN9, BOT_TOKEN10
 ]
+# Remove empty tokens
+BOT_TOKENS = [t for t in BOT_TOKENS if t and t.strip()]
 
 # Owner and Sudo users
 SUDO_USERS = list(map(lambda x: int(x), getenv("SUDO_USERS", default="8841848847").split()))
 for x in ALTRON:
-    SUDO_USERS.append(x)
+    if x not in SUDO_USERS:
+        SUDO_USERS.append(x)
 OWNER_ID = int(getenv("OWNER_ID", default="8841848847"))
-SUDO_USERS.append(OWNER_ID)
+if OWNER_ID not in SUDO_USERS:
+    SUDO_USERS.append(OWNER_ID)
 
 # How many bots to start by default
 ACTIVE_BOT_COUNT = int(getenv("ACTIVE_BOT_COUNT", "10"))
