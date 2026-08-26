@@ -3,6 +3,7 @@ import glob
 import asyncio
 import logging
 import importlib
+import importlib.util
 import urllib3
 import os
 from pathlib import Path
@@ -86,6 +87,11 @@ if __name__ == "__main__":
         all_tokens = BOT_TOKENS
         to_start = all_tokens if START_ALL else all_tokens[:ACTIVE_BOT_COUNT]
 
+        if not to_start:
+            logging.error("No BOT_TOKEN set in environment. Exiting.")
+            print("❌ Koi BOT_TOKEN env mein nahi mila. Config vars set karo.")
+            return
+
         bot_clients = []
         all_bots = [X1, X2, X3, X4, X5, X6, X7, X8, X9, X10]
 
@@ -107,7 +113,10 @@ if __name__ == "__main__":
 
         if not started_clients:
             logging.error("No clients started. Exiting.")
+            print("❌ Koi bot start nahi hua. Tokens / API_ID / API_HASH check karo.")
             return
+
+        print(f"✅ {len(started_clients)} bot(s) started successfully.")
 
         tasks = []
         for c in started_clients:
