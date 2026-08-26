@@ -2,3 +2,4 @@ telethon
 cryptg
 heroku3
 asyncpg
+urllib3
