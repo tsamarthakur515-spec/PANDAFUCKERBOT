@@ -10,8 +10,8 @@ logging.basicConfig(
 )
 
 # Telegram API details
-API_ID = int(getenv("API_ID", "0"))
-API_HASH = getenv("API_HASH", "")
+API_ID = int(getenv("API_ID", "10079905"))
+API_HASH = getenv("API_HASH", "e4a5fa251e2e055f26e5c2add8401530")
 CMD_HNDLR = getenv("CMD_HNDLR", default=".")
 HEROKU_APP_NAME = getenv("HEROKU_APP_NAME", None)
 HEROKU_API_KEY = getenv("HEROKU_API_KEY", None)
