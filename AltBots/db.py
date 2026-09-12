@@ -13,10 +13,10 @@ log = logging.getLogger("db")
 
 _pool: Optional[asyncpg.Pool] = None
 
-DB_HOST = getenv("DB_HOST", "aws-0-ap-southeast-2.pooler.supabase.com")
+DB_HOST = getenv("aws-0-ap-northeast-1.pooler.supabase.com", "aws-0-ap-southeast-2.pooler.supabase.com")
 DB_PORT = int(getenv("DB_PORT", "5432"))
-DB_USER = getenv("DB_USER", "postgres.knvwrfdzjsyxjjybopfb")
-DB_PASSWORD = getenv("DB_PASSWORD", "db_swstika_music")
+DB_USER = getenv("postgres.ounalidujzawoklvmitc", "postgres.knvwrfdzjsyxjjybopfb")
+DB_PASSWORD = getenv("dbkimaakabhosda", "db_swstika_music")
 DB_NAME = getenv("DB_NAME", "postgres")
 TABLE_PREFIX = getenv("TABLE_PREFIX", "Swastika_")
 
