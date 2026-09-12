@@ -11,7 +11,7 @@ BOTS = [X1, X2, X3, X4, X5, X6, X7, X8, X9, X10]
 # Example: LOG_CHANNEL=-1004318913888
 _raw = (getenv("LOG_CHANNEL") or "").strip()
 if not _raw:
-    LOG_CHANNEL =-1004318913888
+    LOG_CHANNEL =
 elif _raw.lstrip("-").isdigit():
     LOG_CHANNEL = int(_raw)
 else:
