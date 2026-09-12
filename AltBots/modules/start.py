@@ -42,7 +42,7 @@ async def start_handler(event):
     bot_id = AltBot.id
 
     caption = TEXT.format(
-        event.sender.first_name=event.sender.first_name or "Friend",
+        first_name=event.sender.first_name or "Friend",
         bot_name=bot_name,
         bot_id=bot_id,
         __version__=__version__
