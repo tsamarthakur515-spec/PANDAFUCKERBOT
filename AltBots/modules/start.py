@@ -1,6 +1,10 @@
-from telethon import __version__, events, Button
+from telethon import events, Button
 from config import X1, X2, X3, X4, X5, X6, X7, X8, X9, X10
+from telethon import __version__
 
+BOTS = [X1, X2, X3, X4, X5, X6, X7, X8, X9, X10]
+
+# ==================== START BUTTONS ====================
 START_BUTTON = [
     [Button.inline("• ᴄᴏᴍᴍᴀɴᴅs •", data="help_back")],
     [
@@ -10,43 +14,63 @@ START_BUTTON = [
     [Button.inline("• ʀᴇᴘᴏ •", data="repo")]
 ]
 
-# List of all bot clients
-BOTS = [X1, X2, X3, X4, X5, X6, X7, X8, X9, X10]
+# ==================== ULTRA PRO START TEXT ====================
+TEXT = """🌟✨ **🌟 ᴡᴇʟᴄᴏᴍᴇ ᴛᴏ ᴏᴜʀ ᴇɪʀᴇ ᴄᴏᴍᴍᴜɴɪᴛʏ 🌟** ✨🌟
+
+🎉 <b>Hey [{event.sender.first_name}]!</b> 🎉
+
+I am <a href="tg://user?id={bot_id}">{bot_name}</a>
+
+━━━━━━━━━━━━━━━━━━━
+👑 <b>Developer:</b> [꯭‌𝅃꯭꯭꯭᳚ ꯭𓆰꯭꯭🍃꯭♔꯭𝐑꯭𝛕꯭꯭֟ؖ۬፝𝛅༭꯭𝐉ᴀ꯭ᴍ꯭፝֟፝֟ᴇ꯭s꯭𝄢꯭|꯭🔥꯭꯭➛](tg://openmessage?user_id=8841848847)
+📱 <b>xBots Version:</b> <code>M3.3</code>
+🐍 <b>Python Version:</b> <code>3.11.3</code>
+🤖 <b>Telethon Version:</b> <code>{__version__}</code>
+━━━━━━━━━━━━━━━━━━━
+
+💥 <b>Tagall</b> • <b>Welcome</b> • <b>Moderation</b> • <b>Fun Commands</b> • <b>NSFW</b> • <b>Games</b>
+
+🌸 Feel free to explore & enjoy with us! 🌸"""
+
+# ==================== VIDEO (ya image) ====================
+VIDEO_URL = "https://files.catbox.moe/q7ng03.mp4"   # Change karna agar chahiye
+
 
 async def start_handler(event):
     AltBot = await event.client.get_me()
     bot_name = AltBot.first_name
     bot_id = AltBot.id
-    TEXT = f"**ʜᴇʏ​ [{event.sender.first_name}]\n\nɪ ᴀᴍ [{bot_name}](tg://user?id={bot_id})​**\n━━━━━━━━━━━━━━━━━━━\n\n"
-    TEXT += f"» **ᴍʏ ᴅᴇᴠᴇʟᴏᴘᴇʀ​ : [⎯꯭‌𝅃꯭꯭꯭᳚ ꯭𓆰꯭꯭🍃꯭♔꯭𝐑꯭𝛕꯭꯭֟ؖ۬፝𝛅༭꯭𝐉ᴀ꯭ᴍ꯭፝֟፝֟ᴇ꯭s꯭𝄢꯭|꯭🔥꯭꯭➛](tg://openmessage?user_id=8841848847)**\n\n"
-    TEXT += f"» **xʙᴏᴛꜱ ᴠᴇʀsɪᴏɴ :** `M3.3`\n"
-    TEXT += f"» **ᴘʏᴛʜᴏɴ ᴠᴇʀsɪᴏɴ :** `3.11.3`\n"
-    TEXT += f"» **ᴛᴇʟᴇᴛʜᴏɴ ᴠᴇʀsɪᴏɴ :** `{__version__}`\n━━━━━━━━━━━━━━━━━"
+
+    caption = TEXT.format(
+        event.sender.first_name=event.sender.first_name or "Friend",
+        bot_name=bot_name,
+        bot_id=bot_id,
+        __version__=__version__
+    )
 
     await event.client.send_file(
         event.chat_id,
-        "https://files.catbox.moe/q7ng03.mp4",
-        caption=TEXT,
-        buttons=START_BUTTON
+        VIDEO_URL,
+        caption=caption,
+        buttons=START_BUTTON,
+        parse_mode="html",
+        supports_streaming=True
     )
 
+
 async def button_handler(event):
-    # event.data is bytes, so decode if needed
     data = event.data.decode("utf-8")
-    
+
     if data == "repo":
         await event.answer(
-            "ʙʜᴀɢ ᴊᴀ ʙʜɪᴋʜᴀʀɪ, ᴋʜᴜᴅ sᴇ ʙᴀɴᴀ ʟᴇ ʀᴇᴘᴏ 😐\n\n ᴘᴏᴡᴇʀᴇᴅ ʙʏ ˹ᴀʀᴜ × ᴀᴘɪ˼ × [ʙᴏᴛs]",
+            "Bhag ja bheekhari, khud se bana le repo 😐\n\nPowered by sxyaru × Aru × Bots",
             alert=True
         )
 
-# Attach to all bots
+
+# ==================== ATTACH TO ALL BOTS ====================
 for bot in BOTS:
     bot.add_event_handler(button_handler, events.CallbackQuery)
 
-
-# --- Callback for "Back" Button ---
-
-# Attach the same /start handler to all bots
 for bot in BOTS:
     bot.add_event_handler(start_handler, events.NewMessage(pattern="/start"))
