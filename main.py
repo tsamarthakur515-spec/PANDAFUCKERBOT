@@ -5,7 +5,6 @@ import logging
 import importlib
 import importlib.util
 import urllib3
-import os
 from pathlib import Path
 from telethon.errors.rpcerrorlist import FloodWaitError
 
@@ -18,7 +17,6 @@ from config import (
 logging.basicConfig(format='[%(levelname) 5s/%(asctime)s] %(name)s: %(message)s', level=logging.WARNING)
 urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
 
-
 def load_plugins(plugin_name):
     path = Path(f"AltBots/modules/{plugin_name}.py")
     spec = importlib.util.spec_from_file_location(f"AltBots.modules.{plugin_name}", path)
@@ -28,9 +26,7 @@ def load_plugins(plugin_name):
     sys.modules["AltBots.modules." + plugin_name] = load
     print("Altron has Imported " + plugin_name)
 
-
 async def start_client(client, name, token):
-    """Start a single TelegramClient in the running async context."""
     if not token:
         logging.info("No token for %s, skipping", name)
         return None
@@ -55,7 +51,6 @@ async def start_client(client, name, token):
         logging.error("Error starting %s: %s", name, exc)
         return None
 
-
 if __name__ == "__main__":
     print("Loading modules...")
     files = glob.glob("AltBots/modules/*.py")
@@ -63,18 +58,15 @@ if __name__ == "__main__":
         with open(name) as a:
             patt = Path(a.name)
             plugin_name = patt.stem
-            load_plugins(plugin_name.replace(".py", ""))
+            load_plugins(plugin_name)
 
     print("\nAltron has successfully imported all modules.")
 
     async def main():
-        # DB + persistent sudo
         try:
             from AltBots.db import init_db, load_sudoers
-
             if await init_db():
                 loaded = await load_sudoers(OWNER_ID)
-                # merge into live SUDO_USERS list (keep env + ALTRON too)
                 for uid in loaded:
                     if uid not in SUDO_USERS:
                         SUDO_USERS.append(uid)
@@ -89,7 +81,7 @@ if __name__ == "__main__":
 
         if not to_start:
             logging.error("No BOT_TOKEN set in environment. Exiting.")
-            print("❌ Koi BOT_TOKEN env mein nahi mila. Config vars set karo.")
+            print("❌ Koi BOT_TOKEN env mein nahi mila.")
             return
 
         bot_clients = []
@@ -113,7 +105,7 @@ if __name__ == "__main__":
 
         if not started_clients:
             logging.error("No clients started. Exiting.")
-            print("❌ Koi bot start nahi hua. Tokens / API_ID / API_HASH check karo.")
+            print("❌ Koi bot start nahi hua.")
             return
 
         print(f"✅ {len(started_clients)} bot(s) started successfully.")
@@ -121,9 +113,7 @@ if __name__ == "__main__":
         tasks = []
         for c in started_clients:
             tasks.append(asyncio.create_task(c.run_until_disconnected()))
-            logging.info("Scheduled %s for updates", next(
-                (k for k, v in clients.items() if v is c), "?"
-            ))
+            logging.info("Scheduled %s for updates", next((k for k, v in clients.items() if v is c), "?"))
 
         await asyncio.gather(*tasks)
 
