@@ -33,12 +33,12 @@ WELCOME_TEXT = """🌟✨ **🌈 ᴡᴇʟᴄᴏᴍᴇ ᴛᴏ ᴏᴜʀ ᴇᴍᴘ�
 # --- Stylish Buttons ---
 WELCOME_BUTTONS = [
     [
-        Button.url("📢 Channel", "https://t.me/suruchisupport"),
-        Button.url("💬 Support", "https://t.me/+fYnrOJSQP9I4ODlh")
+        Button.url("📢 Channel", "https://t.me/+kycml-zhzSs2Zjdl"),
+        Button.url("💬 Support", "https://t.me/+qwlkJNntCU0yMjhl")
     ],
     [
-        Button.url("🌟 Join Channel", "https://t.me/sxyaru"),
-        Button.url("🤝 Invite Friends", "https://t.me/sxyaru")
+        Button.url("🌟 Join Channel", "https://t.me/+kycml-zhzSs2Zjdl"),
+        Button.url("🤝 Invite Friends", "https://t.me/+kycml-zhzSs2Zjdl")
     ]
 ]
 
