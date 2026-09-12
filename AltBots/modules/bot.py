@@ -30,9 +30,9 @@ for bot in ALL_BOTS:
             reply = await e.reply("» __˹ᴀʀᴜ × ᴀᴘɪ˼ × [ʙᴏᴛs]__")
             end = datetime.now()
             ms = (end - start).microseconds / 1000
-            await reply.edit(f"`🤖 ᴘɪɴɢ\n» sᴀᴍᴀʀ ᴛʜᴀᴋᴜʀ ραρα нєяє αв кιѕкι ᴍᴀᴀ ᴄʜᴏᴅᴜ {ms} ᴍꜱ`")
+            await reply.edit(f"`🤖 ᴘɪɴɢ\n» ѕᴀᴍᴀʀ ᴛʜᴀᴋᴜʀ ραρα нєяє αв кιѕкι ᴍᴀᴀ {ms} ᴍꜱ`")
         else:
-            await e.reply("» ᴘʜᴀʟᴇ sᴀᴍᴀʀ ᴘᴀᴘᴀ sᴀ sᴜᴅᴏ ʟᴇʟᴇ ʙᴋʟ 👿 ")
+            await e.reply("» ᴘʜᴀʟᴇ ѕᴀᴍᴀʀ ᴘᴀᴘᴀ ѕᴀ ѕᴜᴅᴏ ʟᴇʟᴇ ʙᴋʟ 😈 ")
 
 
 # 🔁 Reboot Command
