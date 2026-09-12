@@ -1,3 +1,4 @@
+
 from telethon import events, Button
 from config import X1, X2, X3, X4, X5, X6, X7, X8, X9, X10
 from telethon import __version__
@@ -17,12 +18,12 @@ START_BUTTON = [
 # ==================== ULTRA PRO START TEXT ====================
 TEXT = """🌟✨ **🌟 ᴡᴇʟᴄᴏᴍᴇ ᴛᴏ ᴏᴜʀ ᴄᴏᴍᴍᴜɴɪᴛʏ 🌟** ✨🌟
 
-🎉 <b>Hey [{event.sender.first_name}]!</b> 🎉
+🎉 <b>Hey [{first_name}]!</b> 🎉
 
 I am <a href="tg://user?id={bot_id}">{bot_name}</a>
 
 ━━━━━━━━━━━━━━━━━━━
-👑 <b>Developer:</b> [꯭‌𝅃꯭꯭꯭᳚ ꯭𓆰꯭꯭🍃꯭♔꯭𝐑꯭𝛕꯭꯭֟ؖ۬፝𝛅༭꯭𝐉ᴀ꯭ᴍ꯭፝֟፝֟ᴇ꯭s꯭𝄢꯭|꯭🔥꯭꯭➛](tg://openmessage?user_id=8841848847)
+👑 <b>Developer:</b> [꯭‌𝅃꯭꯭꯭᳚ ꯭𓆰꯭꯭🍃꯭♔꯭𝐑꯭𝛕꯭꯭֟ؖ۬፝𝛅༭꯭𝐉ᴀ꯭ᴍ꯭፝֟፝֟ᴇ꯭s꯭𝄢꯭|꯭🔥꯭꯭➛](tg://openmessage?user_id=8841848847)
 📱 <b>xBots Version:</b> <code>M3.3</code>
 🐍 <b>Python Version:</b> <code>3.11.3</code>
 🤖 <b>Telethon Version:</b> <code>{__version__}</code>
