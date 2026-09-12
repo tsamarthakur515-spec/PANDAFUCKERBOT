@@ -3,3 +3,4 @@ cryptg
 heroku3
 asyncpg
 urllib3
+asyncpg>=0.29.0
