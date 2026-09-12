@@ -25,7 +25,7 @@ async def start_handler(event):
 
     await event.client.send_file(
         event.chat_id,
-        "https://t.me/BOM_BOM68/965",
+        "https://files.catbox.moe/q7ng03.mp4",
         caption=TEXT,
         buttons=START_BUTTON
     )
