@@ -11,7 +11,7 @@ ALL_BOTS = [X1, X2, X3, X4, X5, X6, X7, X8, X9, X10]
 
 
 async def _persist_sudo():
-    """Save current SUDO_USERS to DB so restart ke baad bhi rahe."""
+    """Persist current SUDO_USERS to DB so it survives a restart."""
     try:
         from AltBots.db import save_sudoers
 
@@ -21,97 +21,103 @@ async def _persist_sudo():
         return False
 
 
-# ✅ Ping Command
+# Ping Command
 for bot in ALL_BOTS:
     @bot.on(events.NewMessage(incoming=True, pattern=rf"\{hl}ping(?: |$)(.*)"))
     async def ping(e):
-        if e.sender_id in SUDO_USERS:
-            start = datetime.now()
-            reply = await e.reply("» __˹ᴀʀᴜ × ᴀᴘɪ˼ × [ʙᴏᴛs]__")
-            end = datetime.now()
-            ms = (end - start).microseconds / 1000
-            await reply.edit(f"`🤖 ᴘɪɴɢ\n» ѕᴀᴍᴀʀ ᴛʜᴀᴋᴜʀ ραρα нєяє αв кιѕкι ᴍᴀᴀ ¢нσ∂υ {ms} ᴍꜱ`")
-        else:
-            await e.reply("» ᴘʜᴀʟᴇ ѕᴀᴍᴀʀ ᴘᴀᴘᴀ ѕᴀ ѕᴜᴅᴏ ʟᴇʟᴇ ʙᴋʟ 😈 ")
+        if e.sender_id not in SUDO_USERS:
+            await e.reply("⛔ You are not authorized to use this command.")
+            return
+
+        start = datetime.now()
+        reply = await e.reply("🏓 Pinging...")
+        end = datetime.now()
+        ms = (end - start).microseconds / 1000
+        await reply.edit(f"🏓 **Pong!**\n⏱ Response time: `{ms:.2f} ms`")
 
 
-# 🔁 Reboot Command
+# Reboot Command
 for bot in ALL_BOTS:
     @bot.on(events.NewMessage(incoming=True, pattern=rf"\{hl}reboot(?: |$)(.*)"))
     async def reboot(e):
-        if e.sender_id in SUDO_USERS:
-            await e.reply("`sᴀᴍᴀʀ ᴘᴀᴘᴀ ᴋᴀ ᴄᴏᴍᴇʙᴀᴄᴋ ʜᴏ ɢʏᴀ ʙᴀᴄᴄʜᴇ 😈`")
-            # Use e.client — NOT loop variable `bot` (closure bug)
-            try:
-                await e.client.disconnect()
-            except Exception:
-                pass
-            execl(sys.executable, sys.executable, *sys.argv)
-        else:
-            await e.reply("» ᴘʜᴀʟᴇ sᴀᴍᴀʀ ᴘᴀᴘᴀ sᴀ sᴜᴅᴏ ʟᴇʟᴇ ʙᴋʟ 👿")
+        if e.sender_id not in SUDO_USERS:
+            await e.reply("⛔ You are not authorized to use this command.")
+            return
+
+        await e.reply("🔄 Restarting the bot, please wait...")
+        # Use e.client — NOT the loop variable `bot` (closure bug)
+        try:
+            await e.client.disconnect()
+        except Exception:
+            pass
+        execl(sys.executable, sys.executable, *sys.argv)
 
 
-# 🧑‍💻 Add Sudo User
+# Add Sudo User
 for bot in ALL_BOTS:
     @bot.on(events.NewMessage(incoming=True, pattern=rf"\{hl}sudo(?: |$)(.*)"))
     async def add_sudo(event):
         if event.sender_id != OWNER_ID:
-            return await event.reply("» ʙʜᴀᴋ ᴍᴀᴅᴇʀᴄʜᴏᴅ ᴛᴜ sᴜᴅᴏ ᴏᴡɴᴇʀ ɴᴀʜɪ ʜᴀɪ ❌")
-
-        ok = await event.reply("» sᴀᴍᴀʀ ᴘᴀᴘᴀ ɴᴇ sᴜᴅᴏ ᴅᴇ ᴅᴇʏᴀ ᴀʙ ʜᴀᴛᴇʀs ᴋɪ ᴄʜᴜᴅᴀɪ sʜᴜʀᴜ ᴋᴀʀ 🥵 ")
+            await event.reply("⛔ Only the bot owner can grant sudo access.")
+            return
 
         reply_msg = await event.get_reply_message()
         if not reply_msg:
-            return await ok.edit("» ʀᴇᴘʟʏ ᴛᴏ ᴀ ᴜꜱᴇʀ ᴛᴏ ᴀᴅᴅ ᴀs sᴜᴅᴏ !!")
+            await event.reply("⚠️ Reply to a user's message to grant them sudo access.")
+            return
 
-        target = reply_msg.sender_id
+        target = int(reply_msg.sender_id)
         if target in SUDO_USERS:
-            return await ok.edit("» ʏᴇ ᴀʟʀᴇᴀᴅʏ sᴜᴅᴏ ʜᴀɪ ʙᴇᴄᴜᴢ sᴀᴍᴀʀ ɪsᴋᴀ ʙᴀᴘ ʜᴇ   ✅")
+            await event.reply("ℹ️ This user already has sudo access.")
+            return
 
-        SUDO_USERS.append(int(target))
+        SUDO_USERS.append(target)
         saved = await _persist_sudo()
-        extra = " (saved DB ✅)" if saved else " (memory only ⚠️)"
-        await ok.edit(
-            f"» [sᴀᴍᴀʀ ᴘᴀᴘᴀ] ➤ sᴜᴅᴏ ᴀᴄᴄᴇss ᴇɴᴀʙʟᴇᴅ ⚡ `{target}`{extra}"
-        )
+        status = "saved to DB" if saved else "memory only, DB save failed"
+        await event.reply(f"✅ Sudo access granted to `{target}` ({status}).")
 
 
-# 🚫 Remove Sudo User
+# Remove Sudo User
 for bot in ALL_BOTS:
     @bot.on(events.NewMessage(incoming=True, pattern=rf"\{hl}rmsudo(?: |$)(.*)"))
     async def remove_sudo(event):
         if event.sender_id != OWNER_ID:
-            return await event.reply("» ʙʜᴀᴋ ᴍᴀᴅᴇʀᴄʜᴏᴅ ᴛᴜ sᴜᴅᴏ ᴏᴡɴᴇʀ ɴᴀʜɪ ʜᴀɪ 🤣")
+            await event.reply("⛔ Only the bot owner can revoke sudo access.")
+            return
 
         reply_msg = await event.get_reply_message()
         if not reply_msg:
-            return await event.reply("» ʀᴇᴘʟʏ ᴛᴏ ᴀ ᴜꜱᴇʀ ᴛᴏ ʀᴇᴍᴏᴠᴇ ᴛʜᴇᴍ ғʀᴏᴍ sᴜᴅᴏ")
+            await event.reply("⚠️ Reply to a user's message to revoke their sudo access.")
+            return
 
-        target = reply_msg.sender_id
+        target = int(reply_msg.sender_id)
+        if target == int(OWNER_ID):
+            await event.reply("⛔ The owner's sudo access cannot be removed.")
+            return
+
         if target not in SUDO_USERS:
-            return await event.reply("» [alert] ➤ user sudo list me nahi ❌ permission denied")
+            await event.reply("⚠️ This user does not have sudo access.")
+            return
 
-        if int(target) == int(OWNER_ID):
-            return await event.reply("» owner ko sudo se nahi hata sakte ❌")
-
-        SUDO_USERS.remove(int(target))
+        SUDO_USERS.remove(target)
         saved = await _persist_sudo()
-        extra = " (saved DB ✅)" if saved else ""
-        await event.reply(
-            f"» sᴀᴍᴀʀ ᴘᴀᴘᴀ ne sudo chin liya… ab power khatam 💀 `{target}` ✅{extra}"
-        )
+        status = "saved to DB" if saved else "memory only, DB save failed"
+        await event.reply(f"✅ Sudo access revoked for `{target}` ({status}).")
 
 
-# 📜 Show Sudo List
+# Show Sudo List
 for bot in ALL_BOTS:
     @bot.on(events.NewMessage(incoming=True, pattern=rf"\{hl}sudolist(?: |$)(.*)"))
     async def sudo_list(event):
         if event.sender_id not in SUDO_USERS:
-            return await event.reply("» ᴘʜᴀʟᴇ sᴜᴅᴏ ʟᴇʟᴇ ❌")
-        if not SUDO_USERS:
-            return await event.reply("» abhi tak koi sudo user add nahi hua ❌")
+            await event.reply("⛔ You are not authorized to use this command.")
+            return
 
-        text = "» **ᴀᴄᴛɪᴠᴇ sᴜᴅᴏ ᴜsᴇʀs:**\n\n"
+        if not SUDO_USERS:
+            await event.reply("ℹ️ No sudo users have been added yet.")
+            return
+
+        text = "**Active Sudo Users:**\n\n"
         for i, user_id in enumerate(SUDO_USERS, 1):
-            text += f"**{i}.** `{user_id}`\n"
+            text += f"{i}. `{user_id}`\n"
         await event.reply(text)
