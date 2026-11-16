@@ -9,7 +9,7 @@ from pathlib import Path
 from telethon.errors.rpcerrorlist import FloodWaitError
 
 from config import (
-    X1, X2, X3, X4, X5, X6, X7, X8, X9, X10,
+    X1, X2,
     BOT_TOKENS, ACTIVE_BOT_COUNT, START_ALL,
     clients, SUDO_USERS, OWNER_ID,
 )
@@ -76,45 +76,27 @@ if __name__ == "__main__":
         except Exception as e:
             print(f"⚠️ DB init skip: {e}")
 
-        all_tokens = BOT_TOKENS
-        to_start = all_tokens if START_ALL else all_tokens[:ACTIVE_BOT_COUNT]
+        all_bots   = [X1, X2]
+        all_tokens = BOT_TOKENS[:2]   # hard cap at 2
 
-        if not to_start:
-            logging.error("No BOT_TOKEN set in environment. Exiting.")
+        if not all_tokens:
             print("❌ Koi BOT_TOKEN env mein nahi mila.")
             return
 
-        bot_clients = []
-        all_bots = [X1, X2, X3, X4, X5, X6, X7, X8, X9, X10]
-
-        for idx, token in enumerate(to_start, start=1):
-            if idx > len(all_bots):
-                break
-            client = all_bots[idx - 1]
-            if client is None:
-                logging.info("Client X%s not available, skipping", idx)
-                continue
-            bot_clients.append((client, f"X{idx}", token))
-
         started_clients = []
-        for client, name, token in bot_clients:
-            result = await start_client(client, name, token)
+        for idx, (client, token) in enumerate(zip(all_bots, all_tokens), start=1):
+            result = await start_client(client, f"X{idx}", token)
             if result is not None:
-                clients[name] = result
+                clients[f"X{idx}"] = result
                 started_clients.append(result)
 
         if not started_clients:
-            logging.error("No clients started. Exiting.")
             print("❌ Koi bot start nahi hua.")
             return
 
         print(f"✅ {len(started_clients)} bot(s) started successfully.")
 
-        tasks = []
-        for c in started_clients:
-            tasks.append(asyncio.create_task(c.run_until_disconnected()))
-            logging.info("Scheduled %s for updates", next((k for k, v in clients.items() if v is c), "?"))
-
+        tasks = [asyncio.create_task(c.run_until_disconnected()) for c in started_clients]
         await asyncio.gather(*tasks)
 
     loop = asyncio.new_event_loop()
