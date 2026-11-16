@@ -13,9 +13,9 @@ log = logging.getLogger("db")
 _pool: Optional[asyncpg.Pool] = None
 
 # ==================== YOUR SUPABASE CREDENTIALS ====================
-DB_HOST = getenv("DB_HOST", "aws-0-ap-northeast-1.pooler.supabase.com")  # ya "db.lfoeonthyltncckavsqi.supabase.com"
-DB_PORT = int(getenv("DB_PORT", "6543"))  # transaction pooler best hai
-DB_USER = getenv("DB_USER", "postgres.lfoeonthyltncckavsqi")  # project-ref = lfoeonthyltncckavsqi
+DB_HOST = getenv("DB_HOST", "db.ircbyfbuqbvpfgcvbigs.supabase.co")  # ya "db.lfoeonthyltncckavsqi.supabase.com"
+DB_PORT = int(getenv("DB_PORT", "5432"))  # transaction pooler best hai
+DB_USER = getenv("DB_USER", "postgres")  # project-ref = lfoeonthyltncckavsqi
 DB_PASSWORD = getenv("DB_PASSWORD", ""@Musicbotdb123")
 DB_NAME = getenv("DB_NAME", "postgres")
 TABLE_PREFIX = getenv("TABLE_PREFIX", "Swastika_")
