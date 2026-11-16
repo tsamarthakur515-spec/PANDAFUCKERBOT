@@ -16,7 +16,7 @@ _pool: Optional[asyncpg.Pool] = None
 DB_HOST = getenv("DB_HOST", "aws-0-ap-northeast-1.pooler.supabase.com")  # ya "db.lfoeonthyltncckavsqi.supabase.com"
 DB_PORT = int(getenv("DB_PORT", "6543"))  # transaction pooler best hai
 DB_USER = getenv("DB_USER", "postgres.lfoeonthyltncckavsqi")  # project-ref = lfoeonthyltncckavsqi
-DB_PASSWORD = getenv("DB_PASSWORD", "chatbot123@")
+DB_PASSWORD = getenv("DB_PASSWORD", ""@Musicbotdb123")
 DB_NAME = getenv("DB_NAME", "postgres")
 TABLE_PREFIX = getenv("TABLE_PREFIX", "Swastika_")
 
